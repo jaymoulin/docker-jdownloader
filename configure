@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cp /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+sed -i "s/\"password\" : null,/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+sed -i "s/\"email\" : null/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+
