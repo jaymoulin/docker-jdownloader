@@ -35,7 +35,7 @@ Configuration
 You must configure your MyJDownloader login/password with this command :
 
 ```
-docker exec jdownloader configure email@email.com password
+docker exec jdownloader configure credentials email@email.com password
 ```
 
 Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard

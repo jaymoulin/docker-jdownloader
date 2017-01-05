@@ -1,6 +1,37 @@
 #!/bin/sh
 
-cp /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
-sed -i "s/\"password\" : null,/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
-sed -i "s/\"email\" : null/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+usage="$(basename "$0") {-c|credentials|-n|name|-h|help}
+
+where:
+    -h|help                             Show this help text
+    -c|credentials <email> <password>   Define your MyJDownloader credentials
+    -n|name                             Name of your server"
+
+case "$1" in
+help|-h) echo "$usage"
+   exit 1
+   ;;
+-c|credentials)
+    if [ $# -neq 3 ]; then
+        echo "$usage"
+        exit 1
+    fi
+    cp /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+    sed -i "s/\"password\" : null,/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+    sed -i "s/\"email\" : null/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+   ;;
+-n|name)
+    if [ $# -neq 2 ]; then
+        echo "$usage"
+        exit 1
+    fi
+     hostname $1
+  ;;
+*)
+  echo "$usage"
+  exit 1
+  ;;
+esac
+
+
 
