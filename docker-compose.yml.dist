@@ -1,7 +1,0 @@
-version: '2'
-services:
-  jdownloader:
-    build: .
-    volumes: ~/Downloads:/root/Downloads
-    image: jaymoulin/rpi-jdownloader
-    restart: always

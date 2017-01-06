@@ -1,37 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
-usage="$(basename "$0") {-c|credentials|-n|name|-h|help}
+usage="$(basename "$0") <email> <password>"
 
-where:
-    -h|help                             Show this help text
-    -c|credentials <email> <password>   Define your MyJDownloader credentials
-    -n|name                             Name of your server"
+if [ ! $# -eq 2 ]; then
+    echo "$usage"
+    exit 1
+fi
 
-case "$1" in
-help|-h) echo "$usage"
-   exit 1
-   ;;
--c|credentials)
-    if [ $# -neq 3 ]; then
-        echo "$usage"
-        exit 1
-    fi
+if [ ! -f /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json]; then
     cp /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+fi
+
+if [ -f /opt/JDownloader/cfg/credentials ]
+    cred=($(cat /opt/JDownloader/cfg/credentials))
+    sed -i "s/\"password\" : \"${cred[1]}\",/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+    sed -i "s/\"email\" : \"${cred[0]}\"/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+else
     sed -i "s/\"password\" : null,/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
     sed -i "s/\"email\" : null/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
-   ;;
--n|name)
-    if [ $# -neq 2 ]; then
-        echo "$usage"
-        exit 1
-    fi
-     hostname $1
-  ;;
-*)
-  echo "$usage"
-  exit 1
-  ;;
-esac
+fi
 
-
-
+echo -e "$1\n$2" > /opt/JDownloader/cfg/credentials
+pkill -f "JDownloader"

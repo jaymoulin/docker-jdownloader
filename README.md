@@ -6,23 +6,6 @@ This container allows you to have JDownloader daemon installed easily thanks to 
 Installation
 ---
 
-### With Docker Compose
-
-First, configure your environment
-```
-cp docker-compose.yml.dist docker-compose.yml
-```
-
-A MyJDownloader Account is required so, if you don't already have one, you can register here for free : https://my.jdownloader.org/login.html#register
-
-Then, install with:
-
-```
-docker-compose cloudprint -d
-```
-
-### With Docker
-
 ```
 docker run -d --restart=always -v ~/Downloads:/root/Downloads --name jdownloader jaymoulin/rpi-jdownloader
 ```
@@ -35,7 +18,7 @@ Configuration
 You must configure your MyJDownloader login/password with this command :
 
 ```
-docker exec jdownloader configure credentials email@email.com password
+docker exec jdownloader configure email@email.com password
 ```
 
 Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard
