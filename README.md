@@ -7,10 +7,12 @@ Installation
 ---
 
 ```
-docker run -d --restart=always -v ~/Downloads:/root/Downloads --name jdownloader jaymoulin/rpi-jdownloader
+docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader jaymoulin/rpi-jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
+
+It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations. 
 
 Configuration
 ---

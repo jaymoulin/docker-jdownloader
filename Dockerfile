@@ -9,9 +9,12 @@ RUN mkdir /opt/JDownloader/ && \
   \"autoconnectenabledv2\" : true,\n\
   \"password\" : null,\n\
   \"email\" : null\n\
-}" > /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
+}" > /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 
 ADD configure /usr/bin/configure
 RUN chmod +x /usr/bin/configure
+
+VOLUME /root/Downloads
+VOLUME /opt/JDownloader/cfg
 
 CMD ["java", "-Djava.awt.headless=true", "-jar", "/opt/JDownloader/JDownloader.jar"]
