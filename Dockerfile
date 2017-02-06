@@ -4,7 +4,7 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 
 RUN mkdir /opt/JDownloader/
 
-RUN wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?201701271234" && \
+RUN wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?201702062238" && \
     java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar
 
 RUN echo -e "{ \n\
