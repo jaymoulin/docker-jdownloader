@@ -1,7 +1,7 @@
 Raspberry PI - JDownloader - Docker Image
 =
 
-This container allows you to have JDownloader daemon installed easily thanks to Docker.
+This image allows you to have JDownloader daemon installed easily thanks to Docker.
 
 Installation
 ---
