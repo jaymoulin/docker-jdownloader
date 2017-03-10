@@ -40,5 +40,5 @@ curl -sSL "https://gist.githubusercontent.com/jaymoulin/e749a189511cd965f45919f2
 
 To build this image locally 
 ```
-docker build -t jaymoulin/rpi-jdownloader .
+./build.sh
 ```

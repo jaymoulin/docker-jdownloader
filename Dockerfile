@@ -4,17 +4,9 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 
 RUN mkdir /opt/JDownloader/
 
-RUN wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?201702062238" && \
-    java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar
-
-RUN echo -e "{ \n\
-  \"autoconnectenabledv2\" : true,\n\
-  \"password\" : null,\n\
-  \"email\" : null\n\
-}" > /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
-
-ADD configure /usr/bin/configure
-RUN chmod +x /usr/bin/configure
+ADD JDownloader.jar /opt/JDownloader/JDownloader.jar
+ADD default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
+ADD configure.sh /usr/bin/configure
 
 VOLUME /root/Downloads
 VOLUME /opt/JDownloader/cfg
