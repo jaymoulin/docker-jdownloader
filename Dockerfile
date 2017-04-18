@@ -7,6 +7,8 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 RUN apk add --update libstdc++
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 
+ADD tini /sbin/tini
+
 RUN mkdir /opt/JDownloader/
 
 ADD JDownloader.jar /opt/JDownloader/JDownloader.jar
@@ -18,4 +20,4 @@ VOLUME /root/Downloads
 VOLUME /opt/JDownloader/cfg
 WORKDIR /opt/JDownloader
 
-CMD ["/opt/JDownloader/daemon.sh"]
+CMD ["/sbin/tini", "--", "/opt/JDownloader/daemon.sh"]
