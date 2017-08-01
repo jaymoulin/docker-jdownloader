@@ -4,12 +4,13 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN apk add --update libstdc++
+RUN mkdir /opt/JDownloader/
+RUN apk add --update libstdc++ && apk add wget  --virtual .build-deps && \
+	wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && chmod +x /opt/JDownloader/JDownloader.jar && \
+	apk del wget --purge .build-deps
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 
-RUN mkdir /opt/JDownloader/
 
-ADD JDownloader.jar /opt/JDownloader/JDownloader.jar
 ADD daemon.sh /opt/JDownloader/
 ADD default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 ADD configure.sh /usr/bin/configure
