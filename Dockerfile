@@ -7,6 +7,7 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 RUN mkdir /opt/JDownloader/
 RUN apk add --update libstdc++ && apk add wget  --virtual .build-deps && \
 	wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && chmod +x /opt/JDownloader/JDownloader.jar && \
+	wget -O /sbin/tini "https://github.com/krallin/tini/releases/download/v0.16.1/tini-static-armhf" --no-check-certificate && chmod +x /sbin/tini && \
 	apk del wget --purge .build-deps
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 
@@ -19,4 +20,4 @@ VOLUME /root/Downloads
 VOLUME /opt/JDownloader/cfg
 WORKDIR /opt/JDownloader
 
-CMD ["/opt/JDownloader/daemon.sh"]
+CMD ["/sbin/tini", "--", "/opt/JDownloader/daemon.sh"]
