@@ -1,9 +1,11 @@
 ![logo](logo.png "logo")
 
 Raspberry PI - JDownloader - Docker Image
-=
+=========================================
 
 [![latest release](https://img.shields.io/github/release/jaymoulin/docker-rpi-jdownloader.svg "latest release")](http://github.com/jaymoulin/docker-rpi-jdownloader/releases)
+[![Bitcoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/btc.png "Bitcoin donation")](https://m.freewallet.org/id/374ad82e/btc)
+[![Litecoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ltc.png "Litecoin donation")](https://m.freewallet.org/id/374ad82e/ltc)
 
 This image allows you to have JDownloader daemon installed easily thanks to Docker.
 
