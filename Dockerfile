@@ -5,12 +5,10 @@ MAINTAINER Jay MOULIN <jaymoulin@gmail.com>
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
 RUN mkdir /opt/JDownloader/
-RUN apk update && \
-	apk add --update libstdc++ && apk add wget  --virtual .build-deps && \
+RUN apk add --update libstdc++ ffmpeg && apk add wget  --virtual .build-deps && \
 	wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && chmod +x /opt/JDownloader/JDownloader.jar && \
 	wget -O /sbin/tini "https://github.com/krallin/tini/releases/download/v0.16.1/tini-static-armhf" --no-check-certificate && chmod +x /sbin/tini && \
-	apk del wget --purge .build-deps && \
-	apk add ffmpeg
+	apk del wget --purge .build-deps
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 
 
