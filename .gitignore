@@ -1,0 +1,3 @@
+qemu-*-static
+*.yaml
+.Dockerfile

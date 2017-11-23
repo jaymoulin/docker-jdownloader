@@ -1,0 +1,24 @@
+image: jaymoulin/jdownloader:$FULLVERSION
+manifests:
+  -
+    image: jaymoulin/jdownloader:$VERSION-arm32v6
+    platform:
+      architecture: arm
+      variant: v6
+      os: linux
+  -
+    image: jaymoulin/jdownloader:$VERSION-arm64v8
+    platform:
+      architecture: arm
+      variant: v8
+      os: linux
+  -
+    image: jaymoulin/jdownloader:$VERSION-amd64
+    platform:
+      architecture: arm64
+      os: linux
+  -
+    image: jaymoulin/jdownloader:$VERSION-i386
+    platform:
+      architecture: 386
+      os: linux

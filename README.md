@@ -1,15 +1,14 @@
 ![logo](logo.png "logo")
 
-Raspberry PI - JDownloader - Docker Image
-=========================================
+JDownloader - Docker Image
+==========================
 
-[![latest release](https://img.shields.io/github/release/jaymoulin/docker-rpi-jdownloader.svg "latest release")](http://github.com/jaymoulin/docker-rpi-jdownloader/releases)
-[![Docker Pulls](https://img.shields.io/docker/pulls/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
-[![Docker stars](https://img.shields.io/docker/stars/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
+[![latest release](https://img.shields.io/github/release/jaymoulin/docker-jdownloader.svg "latest release")](http://github.com/jaymoulin/docker-jdownloader/releases)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jaymoulin/jdownloader.svg)](https://hub.docker.com/r/jaymoulin/jdownloader/)
+[![Docker stars](https://img.shields.io/docker/stars/jaymoulin/jdownloader.svg)](https://hub.docker.com/r/jaymoulin/jdownloader/)
 [![Bitcoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/btc.png "Bitcoin donation")](https://m.freewallet.org/id/374ad82e/btc)
 [![Litecoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ltc.png "Litecoin donation")](https://m.freewallet.org/id/374ad82e/ltc)
 [![PayPal donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ppl.png "PayPal donation")](https://www.paypal.me/jaymoulin)
-[![Beerpay donation](https://beerpay.io/jaymoulin/docker-rpi-jdownloader/badge.svg "Beerpay donation")](https://beerpay.io/jaymoulin/docker-rpi-jdownloader)
 
 This image allows you to have JDownloader daemon installed easily thanks to Docker.
 
@@ -17,7 +16,7 @@ Installation
 ---
 
 ```
-docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader jaymoulin/rpi-jdownloader
+docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader jaymoulin/jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
@@ -38,7 +37,7 @@ Everything else can be configurable on your MyJDownloader account : https://my.j
 Appendixes
 ---
 
-### Install RaspberryPi Docker
+### Install Docker
 
 If you don't have Docker installed yet, you can do it easily in one line using this command
  
