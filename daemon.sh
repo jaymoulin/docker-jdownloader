@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/JDownloader.jar.*
