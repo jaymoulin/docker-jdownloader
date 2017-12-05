@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 usage="$(basename "$0") <email> <password>"
 
@@ -12,7 +12,7 @@ if [ ! -f /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSe
 fi
 
 if [ -f /opt/JDownloader/credentials ]; then
-    cred=($(cat /opt/JDownloader/cfg/credentials))
+    cred=$(cat /opt/JDownloader/cfg/credentials)
     sed -i "s/\"password\" : \"${cred[1]}\",/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
     sed -i "s/\"email\" : \"${cred[0]}\"/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 else
