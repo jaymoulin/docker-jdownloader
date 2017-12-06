@@ -10,8 +10,9 @@ build:
 	cp /usr/bin/qemu-arm-static .
 	cp /usr/bin/qemu-aarch64-static .
 	$(foreach arch,$(archs), \
+		if [ $(arch) = arm32v6 ]; then archi=armhf; elif [ $(arch) = arm64v8 ]; then archi=arm64; else archi=$(arch); fi; \
 		cat Dockerfile | sed "s/FROM openjdk:jre-alpine/FROM ${arch}\/openjdk:jre-alpine/g" > .Dockerfile; \
-		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile ${CACHE} .;\
+		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} .;\
 	)
 publish:
 	docker push jaymoulin/jdownloader
