@@ -11,14 +11,6 @@ if [ ! -f /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSe
     cp /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 fi
 
-if [ -f /opt/JDownloader/credentials ]; then
-    cred=$(cat /opt/JDownloader/cfg/credentials)
-    sed -i "s/\"password\" : \"${cred[1]}\",/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
-    sed -i "s/\"email\" : \"${cred[0]}\"/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
-else
-    sed -i "s/\"password\" : null,/\"password\" : \"$2\",/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
-    sed -i "s/\"email\" : null/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
-fi
-
-echo -e "$1\n$2" > /opt/JDownloader/credentials
+sed -i "s/\"password\" : [^,]+/\"password\" : \"$2\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+sed -i "s/\"email\" : [^,]+/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 pkill -f "JDownloader"
