@@ -11,6 +11,6 @@ if [ ! -f /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSe
     cp /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 fi
 
-sed -i "s/\"password\" : [^,]+/\"password\" : \"$2\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
-sed -i "s/\"email\" : [^,]+/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+sed -Ei "s/\"password\" : [^,]+/\"password\" : \"$2\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+sed -Ei "s/\"email\" : [^,]+/\"email\" : \"$1\"/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 pkill -f "JDownloader"
