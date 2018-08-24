@@ -1,4 +1,4 @@
-VERSION ?= 0.4.5
+VERSION ?= 0.5.0
 CACHE ?= --no-cache=1
 FULLVERSION ?= ${VERSION}
 archs ?= amd64 arm32v6 arm64v8 i386
@@ -22,7 +22,7 @@ build: qemu-arm-static qemu-aarch64-static
 			image=${arch}\\/openjdk:jre-alpine; \
 		fi; \
 		cat Dockerfile | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
-		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} .;\
+		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
 	)
 publish:
 	docker push jaymoulin/jdownloader

@@ -5,8 +5,11 @@ COPY qemu-arm-static /usr/bin/
 
 FROM builder
 
+COPY *.jar /opt/JDownloader/libs/
 ARG ARCH=armhf
+ARG VERSION="0.5.0"
 LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
+LABEL version="${VERSION}"
 
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
@@ -14,7 +17,7 @@ RUN mkdir -p /opt/JDownloader/ && \
     apk add --update libstdc++ ffmpeg && apk add wget  --virtual .build-deps && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod +x /opt/JDownloader/JDownloader.jar && \
-    wget -O /usr/bin/tini "https://github.com/krallin/tini/releases/download/v0.16.1/tini-static-${ARCH}" --no-check-certificate \
+    wget -O /usr/bin/tini "https://github.com/krallin/tini/releases/download/v0.18.0/tini-static-${ARCH}" --no-check-certificate \
     && chmod +x /usr/bin/tini && \
     apk del wget --purge .build-deps && \
     rm /usr/bin/qemu-*-static
