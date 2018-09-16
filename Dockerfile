@@ -5,12 +5,12 @@ COPY qemu-arm-static /usr/bin/
 
 FROM builder
 
-COPY *.jar /opt/JDownloader/libs/
 ARG ARCH=armhf
-ARG VERSION="0.5.0"
+ARG VERSION="0.5.1"
 LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}"
 
+COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
 RUN mkdir -p /opt/JDownloader/ && \
