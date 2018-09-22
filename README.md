@@ -16,7 +16,7 @@ Installation
 ---
 
 ```
-docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader jaymoulin/jdownloader
+docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $UID:$(id -g) jaymoulin/jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
