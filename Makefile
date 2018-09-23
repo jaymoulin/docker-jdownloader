@@ -16,7 +16,7 @@ build: qemu-arm-static qemu-aarch64-static
 			image=larmog\\/armhf-alpine-java:jdk-8u73; \
 		elif [ $(arch) = arm64v8 ]; \
 			then archi=arm64; \
-			image=larmog\\/armhf-alpine-java:jdk-8u73; \
+			image=${arch}\\/openjdk:jre-alpine; \
 		else \
 			archi=$(arch); \
 			image=${arch}\\/openjdk:jre-alpine; \
