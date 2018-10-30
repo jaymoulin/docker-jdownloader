@@ -18,12 +18,13 @@ Installation
 ---
 
 ```
-docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $UID:$(id -g) jaymoulin/jdownloader
+docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u):$(id -g) jaymoulin/jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
 
-It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations. 
+It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations.
+Note: Use the `-u $(id -u):$(id -g)` part for jdownloader to run as a specific user. It's recommanded to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
 
 Configuration
 ---
