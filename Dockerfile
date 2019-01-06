@@ -6,9 +6,9 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="0.6.0"
+ARG VERSION="0.6.1"
 LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
-LABEL version="${VERSION}"
+LABEL version="${VERSION}-${ARCH}"
 
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
@@ -24,6 +24,8 @@ RUN mkdir -p /opt/JDownloader/ && \
     apk del wget --purge .build-deps && \
     rm /usr/bin/qemu-*-static
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 COPY daemon.sh /opt/JDownloader/
 COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
