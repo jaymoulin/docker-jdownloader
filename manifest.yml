@@ -1,10 +1,10 @@
 image: jaymoulin/jdownloader:$FULLVERSION
 manifests:
   -
-    image: jaymoulin/jdownloader:$VERSION-arm32v6
+    image: jaymoulin/jdownloader:$VERSION-armhf
     platform:
       architecture: arm
-      variant: v6
+      variant: v7
       os: linux
   -
     image: jaymoulin/jdownloader:$VERSION-arm64v8

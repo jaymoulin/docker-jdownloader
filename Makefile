@@ -1,7 +1,7 @@
-VERSION ?= 0.6.1
+VERSION ?= 0.7.0
 CACHE ?= --no-cache=1
 FULLVERSION ?= ${VERSION}
-archs ?= amd64 arm32v6 arm64v8 i386
+archs ?= amd64 armhf arm64v8 i386
 
 .PHONY: all build publish latest
 all: build publish latest
@@ -11,9 +11,9 @@ qemu-aarch64-static:
 	cp /usr/bin/qemu-aarch64-static .
 build: qemu-arm-static qemu-aarch64-static
 	$(foreach arch,$(archs), \
-		if [ $(arch) = arm32v6 ]; \
+		if [ $(arch) = armhf ]; \
 			then archi=armhf; \
-			image=larmog\\/armhf-alpine-java:jdk-8u73; \
+			image=jaymoulin\\/oracle-jdk:armhf; \
 		elif [ $(arch) = arm64v8 ]; \
 			then archi=arm64; \
 			image=${arch}\\/openjdk:jre-alpine; \
