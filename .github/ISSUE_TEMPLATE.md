@@ -18,6 +18,12 @@ If you find this useful, please consider starring the repo and/or donating.
 People showing interest attract more attention ;)
 -->
 
+**Output of `docker inspect jdownloader --format='{{index .Config.Labels.version}}'`:**
+
+```
+(paste your output here)
+```
+
 **Description**
 
 <!--
@@ -46,9 +52,3 @@ Briefly describe the problem you are having in a few paragraphs.
 (paste logs)
 </pre>
 </details>
-
-**Output of `docker inspect jdownloader --format='{{index .Config.Labels.version}}'`:**
-
-```
-(paste your output here)
-```

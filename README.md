@@ -28,6 +28,8 @@ You can replace `~/Downloads` with the folder you want your downloaded files to 
 It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations.
 Note: Use the `-u $(id -u):$(id -g)` part for jdownloader to run as a specific user. It's recommanded to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
 
+*Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
+
 Configuration
 ---
 

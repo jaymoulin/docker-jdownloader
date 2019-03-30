@@ -1,7 +1,7 @@
 VERSION ?= 0.7.0
 CACHE ?= --no-cache=1
 FULLVERSION ?= ${VERSION}
-archs ?= amd64 armhf arm64v8 i386
+archs ?= amd64 arm32v6 armhf arm64v8 i386
 
 .PHONY: all build publish latest
 all: build publish latest
@@ -11,17 +11,21 @@ qemu-aarch64-static:
 	cp /usr/bin/qemu-aarch64-static .
 build: qemu-arm-static qemu-aarch64-static
 	$(foreach arch,$(archs), \
+		FILE=Dockerfile; \
 		if [ $(arch) = armhf ]; \
 			then archi=armhf; \
 			image=jaymoulin\\/oracle-jdk:armhf; \
 		elif [ $(arch) = arm64v8 ]; \
 			then archi=arm64; \
 			image=${arch}\\/openjdk:jre-alpine; \
+		elif [ $(arch) = arm32v6 ]; \
+			then archi=armel; \
+			FILE=Dockerfile.arm32v6; \
 		else \
 			archi=$(arch); \
 			image=${arch}\\/openjdk:jre-alpine; \
 		fi; \
-		cat Dockerfile | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
+		cat $$FILE | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
 		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
 	)
 publish:
