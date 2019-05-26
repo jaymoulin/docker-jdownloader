@@ -1,4 +1,4 @@
-VERSION ?= 0.7.0
+VERSION ?= 0.7.1
 CACHE ?= --no-cache=1
 FULLVERSION ?= ${VERSION}
 archs ?= amd64 arm32v6 armhf arm64v8 i386
