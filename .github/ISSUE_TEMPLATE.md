@@ -1,13 +1,18 @@
 <!--
 If you are reporting a new issue, make sure that we do not have any duplicates
 already open. You can ensure this by searching the issue list for this
-repository. If there is a duplicate, please close your issue and add a comment
+repository. Please be sure the issue you will report is not actually related to JDownloader.
+If your issue is related to JDownloader, you will probably find help to the official
+JDownloader forum (https://board.jdownloader.org/forumdisplay.php?f=50)
+If there is a duplicate, please close your issue and add a comment
 to the existing issue instead.
 
 If you suspect your issue is a bug, please edit your issue description to
 include the BUG REPORT INFORMATION shown below. If you fail to provide this
 information within 7 days, we cannot debug your issue and will close it. We
 will, however, reopen it if you later provide the information.
+
+PLEASE REMEMBER THAT I'M NOT PART OF JDOWNLOADER NOR DOCKER TEAMS!
 
 For more information about reporting issues, see
 https://github.com/jaymoulin/docker-jdownloader/blob/master/CONTRIBUTING.md
