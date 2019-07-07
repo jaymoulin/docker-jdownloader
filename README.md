@@ -20,13 +20,14 @@ Installation
 ---
 
 ```
-docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u):$(id -g) jaymoulin/jdownloader
+docker run -d --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) jaymoulin/jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
 
 It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations.
-Note: Use the `-u $(id -u):$(id -g)` part for jdownloader to run as a specific user. It's recommanded to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
+Note: Use the `-u $(id -u)` part for jdownloader to run as a specific user. It's recommanded to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
+Note: Add `-p 3129:3129` to allow Jdownloader direct connections (this has to be forwared in your router) (see: https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
 
 *Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
 

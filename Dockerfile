@@ -6,7 +6,7 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="0.7.1"
+ARG VERSION="0.7.2"
 LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
@@ -27,6 +27,7 @@ COPY daemon.sh /opt/JDownloader/
 COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 COPY configure.sh /usr/bin/configure
 
+EXPOSE 3129
 WORKDIR /opt/JDownloader
 
 CMD ["tini-static", "--", "/opt/JDownloader/daemon.sh"]
