@@ -9,4 +9,4 @@ community_bridge: # Replace with a single Community Bridge project-name e.g., cl
 liberapay: # Replace with a single Liberapay username
 issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
-custom: ['https://www.paypal.me/jaymoulin', 'https://www.buymeacoffee.com/3Yu8ajd7W', 'https://freewallet.org/id/374ad82e/btc', 'https://freewallet.org/id/374ad82e/btc']
+custom: ['https://www.paypal.me/jaymoulin', 'https://www.buymeacoffee.com/3Yu8ajd7W', 'https://freewallet.org/id/374ad82e/btc', 'https://freewallet.org/id/374ad82e/ltc']
