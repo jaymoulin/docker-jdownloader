@@ -45,6 +45,29 @@ Everything else can be configurable on your MyJDownloader account : https://my.j
 Appendixes
 ---
 
+### Direct Connection
+
+As @jiaz83 stated
+
+> short explanation what the direct connection mode does.
+> client(app,webinterface,tool...)<-....->JDownloader connections happens either
+> 
+> 1.) client<-apiserver->JDownloader
+> in this(default,fallback) mode both(control- and data-) connections are using the api server.
+> Advantage: no need to forward ports/dyndns
+> Disadvantage: lower bandwidth and higher latency
+> 
+> 2.) client<->JDownloader
+> in this (direct connection) mode, control connections are still using the api server while data connections are directly connecting to the running JDownloader instance without any relay server
+> Advantage: much higher bandwidth and reduced latency
+> Disadvantage: user might have to manually enable/allow port forwarding from LAN and/or WAN IP to JDownloader instance
+> On connection issues, the client will automatically fallback to 1.) and try to re-establish a direct connection again.
+> 
+> by default direct connection mode is set to LAN, so only clients from LAN can connect directly.
+> see https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings
+> default port is 3129
+
+
 ### Install Docker
 
 If you don't have Docker installed yet, you can do it easily in one line using this command
