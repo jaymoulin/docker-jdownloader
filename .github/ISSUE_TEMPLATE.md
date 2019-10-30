@@ -1,4 +1,6 @@
 <!--
+YOU HAVE TO READ THIS, YOUR ISSUE WILL BE IGNORED IF NOT READ AND RESPECTED.
+
 If you are reporting a new issue, make sure that we do not have any duplicates
 already open. You can ensure this by searching the issue list for this
 repository. Please be sure the issue you will report is not actually related to JDownloader.
@@ -13,6 +15,12 @@ information within 7 days, we cannot debug your issue and will close it. We
 will, however, reopen it if you later provide the information.
 
 PLEASE REMEMBER THAT I'M NOT PART OF JDOWNLOADER NOR DOCKER TEAMS!
+
+REALLY IMPORTANT
+As Jdownloader logs are REALLY verbose, always use <details><pre>PASTED LOGS</pre></details>
+syntax to make your issue readable. As a reminder, I AM NOT PART OF THE JDOWNLOADER TEAMS
+so if you're willing to paste your logs, you probably want to ask JDownloader support
+at https://support.jdownloader.org/ (only if you didn't find help on their forum)
 
 For more information about reporting issues, see
 https://github.com/jaymoulin/docker-jdownloader/blob/master/CONTRIBUTING.md
