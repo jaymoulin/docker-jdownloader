@@ -17,12 +17,6 @@ manifests:
       architecture: arm64
       os: linux
   -
-    image: jaymoulin/jdownloader:$VERSION-arm64v8
-    platform:
-      architecture: arm
-      variant: v8
-      os: linux
-  -
     image: jaymoulin/jdownloader:$VERSION-amd64
     platform:
       architecture: amd64
