@@ -13,6 +13,7 @@ JDownloader - Docker Image
 [![Watch Ads](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/utip.png "Watch Ads")](https://utip.io/femtopixel)
 [![PayPal donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ppl.png "PayPal donation")](https://www.paypal.me/jaymoulin)
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png "Buy me a coffee")](https://www.buymeacoffee.com/3Yu8ajd7W)
+[![Become a Patron](https://badgen.net/badge/become/a%20patron/F96854 "Decome a Patron")](https://patreon.com/femtopixel)
 
 
 This image allows you to have JDownloader daemon installed easily thanks to Docker.
