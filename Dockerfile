@@ -6,7 +6,7 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="0.7.2"
+ARG VERSION="1.0.0"
 LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
@@ -14,7 +14,7 @@ COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
 RUN mkdir -p /opt/JDownloader/ && \
-    apk add --update libstdc++ ffmpeg tini-static && \
+    apk add --update libstdc++ ffmpeg && \
     apk add wget  --virtual .build-deps && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod +x /opt/JDownloader/JDownloader.jar && \
@@ -30,4 +30,4 @@ COPY configure.sh /usr/bin/configure
 EXPOSE 3129
 WORKDIR /opt/JDownloader
 
-CMD ["tini-static", "--", "/opt/JDownloader/daemon.sh"]
+CMD ["/opt/JDownloader/daemon.sh"]
