@@ -5,8 +5,8 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armel
-ARG VERSION="1.0.0"
-LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
+ARG VERSION="1.0.1"
+LABEL maintainer="Jay MOULIN <https://femtopixel.com/jaymoulin/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
