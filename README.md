@@ -22,14 +22,14 @@ Installation
 ---
 
 ```
-docker run -d --init --restart=always -v ~/Downloads:/root/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) jaymoulin/jdownloader
+docker run -d --init --restart=always -v ~/Downloads:/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) jaymoulin/jdownloader
 ```
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
 
 It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations.
-Note: Use the `-u $(id -u)` part for jdownloader to run as a specific user. It's recommanded to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
-Note: Add `-p 3129:3129` to allow Jdownloader direct connections (this has to be forwared in your router) (see: https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
+Note: Use the `-u $(id -u)` part for JDownloader to run as a specific user. It's recommended to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
+Note: Add `-p 3129:3129` to allow JDownloader direct connections (this has to be forwarded in your router) (see: https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
 
 *Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
 
@@ -42,7 +42,9 @@ You must configure your MyJDownloader login/password with this command :
 docker exec jdownloader configure email@email.com password
 ```
 
-Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard
+Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
+
+DON'T FORGET TO CHANGE YOUR DEFAULT DOWNLOAD FOLDER to `/Downloads`
 
 Appendixes
 ---
@@ -69,6 +71,11 @@ As @jiaz83 stated
 > see https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings
 > default port is 3129
 
+
+### Debugging
+
+You can put a file called `jdownloader-block.txt` file in your Download folder to pose the container start.
+This will allow to connect to the container with a shell to debug. (`docker exec -it jdownloader sh`) 
 
 ### Install Docker
 
