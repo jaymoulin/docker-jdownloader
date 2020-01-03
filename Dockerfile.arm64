@@ -1,0 +1,29 @@
+FROM arm64v8/openjdk:jre-alpine as builder
+FROM builder
+
+ARG ARCH=arm64
+ARG VERSION="1.0.0"
+
+LABEL maintainer="Jay MOULIN <jaymoulin@gmail.com> <https://twitter.com/MoulinJay>"
+LABEL version="${VERSION}-${ARCH}"
+
+COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
+# archive extraction uses sevenzipjbinding library
+# which is compiled against libstdc++
+
+RUN mkdir -p /opt/JDownloader/libs && \
+    apk add --no-cache --quiet tini su-exec shadow ffmpeg jq libstdc++ && \
+    apk add wget  --virtual .build-deps && \
+    wget -O /opt/JDownloader/JDownloader.jar --user-agent="https://hub.docker.com/r/plusminus/jdownloader2-headless/" http://installer.jdownloader.org/JDownloader.jar && \
+    apk del wget --purge .build-deps && \
+    java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar
+
+COPY entrypoint.sh /opt/JDownloader/
+
+EXPOSE 3129
+WORKDIR /opt/JDownloader
+
+ENTRYPOINT ["tini", "-g", "--", "/opt/JDownloader/entrypoint.sh"]
+# Run this when the container is started
+CMD ["java", "-Djava.awt.headless=true", "-jar", "/opt/JDownloader/JDownloader.jar"]
+
