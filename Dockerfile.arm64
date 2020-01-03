@@ -11,8 +11,7 @@ COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
 
-RUN mkdir -p /opt/JDownloader/libs && \
-    apk add --no-cache --quiet tini su-exec shadow ffmpeg jq libstdc++ && \
+RUN apk add --no-cache --quiet tini su-exec shadow ffmpeg jq libstdc++ && \
     apk add wget  --virtual .build-deps && \
     wget -O /opt/JDownloader/JDownloader.jar --user-agent="https://hub.docker.com/r/plusminus/jdownloader2-headless/" http://installer.jdownloader.org/JDownloader.jar && \
     apk del wget --purge .build-deps && \
