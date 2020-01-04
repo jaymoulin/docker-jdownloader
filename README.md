@@ -1,6 +1,6 @@
 ![logo](logo.png "logo")
 
-JDownloader - Docker Image
+JDownloader 2 - Docker Image
 ==========================
 
 [![latest release](https://img.shields.io/github/release/jaymoulin/docker-jdownloader.svg "latest release")](http://github.com/jaymoulin/docker-jdownloader/releases)
@@ -16,7 +16,7 @@ JDownloader - Docker Image
 [![Become a Patron](https://badgen.net/badge/become/a%20patron/F96854 "Become a Patron")](https://patreon.com/femtopixel)
 
 
-This image allows you to have JDownloader daemon installed easily thanks to Docker.
+This image allows you to have JDownloader 2 daemon installed easily thanks to Docker.
 
 Installation
 ---
