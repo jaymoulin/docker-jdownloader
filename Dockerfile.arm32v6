@@ -18,7 +18,7 @@ RUN mkdir -p /opt/JDownloader/ && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod +x /opt/JDownloader/JDownloader.jar && \
     chmod 777 /opt/JDownloader/ -R && \
-    apt autoremove -y wget && \
+    apt autoremove -y && \
     rm /usr/bin/qemu-*-static
 
 
