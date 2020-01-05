@@ -1,6 +1,7 @@
-FROM balenalib/raspberry-pi as builder
+FROM openjdk:jre-alpine as builder
 
 COPY qemu-arm-static /usr/bin/
+COPY qemu-aarch64-static /usr/bin/
 
 FROM builder
 
@@ -20,7 +21,6 @@ RUN mkdir -p /opt/JDownloader/ && \
     chmod 777 /opt/JDownloader/ -R && \
     apt autoremove -y && \
     rm /usr/bin/qemu-*-static
-
 
 COPY daemon.sh /opt/JDownloader/
 COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist

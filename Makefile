@@ -20,7 +20,8 @@ build: qemu-arm-static qemu-aarch64-static
 			image=${arch}\\/openjdk:jre-alpine; \
 		elif [ $(arch) = arm32v6 ]; \
 			then archi=armel; \
-			FILE=Dockerfile.arm32v6; \
+			image=balenalib\\/raspberry-pi; \
+			FILE=debian.Dockerfile; \
 		else \
 			archi=$(arch); \
 			image=${arch}\\/openjdk:jre-alpine; \

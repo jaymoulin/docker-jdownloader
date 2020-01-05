@@ -20,7 +20,6 @@ RUN mkdir -p /opt/JDownloader/ && \
     chmod 777 /opt/JDownloader/ -R && \
     rm /usr/bin/qemu-*-static
 
-
 COPY daemon.sh /opt/JDownloader/
 COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 COPY configure.sh /usr/bin/configure
