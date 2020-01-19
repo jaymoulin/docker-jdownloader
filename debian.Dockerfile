@@ -14,12 +14,12 @@ COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
 RUN mkdir -p /opt/JDownloader/ && \
-    apt update && \
-    apt install openjdk-8-jre ffmpeg wget -y && \
+    apt-get update && \
+    apt-get install openjdk-8-jre ffmpeg wget -y && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod +x /opt/JDownloader/JDownloader.jar && \
     chmod 777 /opt/JDownloader/ -R && \
-    apt autoremove -y && \
+    apt-get autoremove -y && \
     rm /usr/bin/qemu-*-static
 
 COPY daemon.sh /opt/JDownloader/
