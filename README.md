@@ -8,8 +8,6 @@ JDownloader 2 - Docker Image
 [![Docker stars](https://img.shields.io/docker/stars/jaymoulin/jdownloader.svg)](https://hub.docker.com/r/jaymoulin/jdownloader/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
 [![Docker stars](https://img.shields.io/docker/stars/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
-[![Bitcoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/btc.png "Bitcoin donation")](https://m.freewallet.org/id/374ad82e/btc)
-[![Litecoin donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ltc.png "Litecoin donation")](https://m.freewallet.org/id/374ad82e/ltc)
 [![Watch Ads](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/utip.png "Watch Ads")](https://utip.io/femtopixel)
 [![PayPal donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ppl.png "PayPal donation")](https://www.paypal.me/jaymoulin)
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png "Buy me a coffee")](https://www.buymeacoffee.com/3Yu8ajd7W)
