@@ -4,6 +4,10 @@ trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/JDownloader.jar.*
 rm -f /opt/JDownloader/JDownloader.pid
 
+if [ ! -z "$MYJD_USER" ] && [ ! -z "$MYJD_PASSWORD" ]; then
+    configure $MYJD_USER $MYJD_PASSWORD
+fi
+
 # Debugging helper - if the container crashes, create a file called "jdownloader-block.txt" in the download folder
 # The container will not terminate (and you can run "docker exec -it ... bash")
 if [ -f /Downloads/jdownloader-block.txt ]; then

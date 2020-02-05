@@ -6,8 +6,6 @@ JDownloader 2 - Docker Image
 [![latest release](https://img.shields.io/github/release/jaymoulin/docker-jdownloader.svg "latest release")](http://github.com/jaymoulin/docker-jdownloader/releases)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jaymoulin/jdownloader.svg)](https://hub.docker.com/r/jaymoulin/jdownloader/)
 [![Docker stars](https://img.shields.io/docker/stars/jaymoulin/jdownloader.svg)](https://hub.docker.com/r/jaymoulin/jdownloader/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
-[![Docker stars](https://img.shields.io/docker/stars/jaymoulin/rpi-jdownloader.svg)](https://hub.docker.com/r/jaymoulin/rpi-jdownloader/)
 [![Watch Ads](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/utip.png "Watch Ads")](https://utip.io/femtopixel)
 [![PayPal donation](https://github.com/jaymoulin/jaymoulin.github.io/raw/master/ppl.png "PayPal donation")](https://www.paypal.me/jaymoulin)
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png "Buy me a coffee")](https://www.buymeacoffee.com/3Yu8ajd7W)
@@ -20,8 +18,10 @@ Installation
 ---
 
 ```
-docker run -d --init --restart=always -v ~/Downloads:/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) jaymoulin/jdownloader
+docker run -d --init --restart=always -v ~/Downloads:/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -e MYJD_USER=email@email.com -e MYJD_PASSWORD=password jaymoulin/jdownloader
 ```
+
+The environment variables are not mandatory.
 
 You can replace `~/Downloads` with the folder you want your downloaded files to go.
 
@@ -34,7 +34,12 @@ Note: Add `-p 3129:3129` to allow JDownloader direct connections (this has to be
 Configuration
 ---
 
-You must configure your MyJDownloader login/password with this command :
+You must configure your MyJDownloader login/password using this environment variables:
+```
+MYJD_USER=email@email.com
+MYJD_PASSWORD=password
+```
+or with this command :
 
 ```
 docker exec jdownloader configure email@email.com password
@@ -81,4 +86,23 @@ If you don't have Docker installed yet, you can do it easily in one line using t
  
 ```
 curl -sSL "https://gist.githubusercontent.com/jaymoulin/e749a189511cd965f45919f2f99e45f3/raw/0e650b38fde684c4ac534b254099d6d5543375f1/ARM%2520(Raspberry%2520PI)%2520Docker%2520Install" | sudo sh && sudo usermod -aG docker $USER
+```
+
+### Docker compose
+
+Here is an example of docker-compose file
+
+```yml
+version: "2"
+services:
+    jdownloader:
+        image: jaymoulin/jdownloader
+        ports:
+            - 3129:3129
+        volumes:
+            - ~/Downloads:/Downloads
+        environment: 
+            MYJD_USER: goofy
+            MYJD_PASSWORD: foo
+        restart: always
 ```
