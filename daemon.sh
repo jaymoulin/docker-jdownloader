@@ -5,7 +5,7 @@ rm -f /opt/JDownloader/JDownloader.jar.*
 rm -f /opt/JDownloader/JDownloader.pid
 
 if [ ! -z "$MYJD_USER" ] && [ ! -z "$MYJD_PASSWORD" ]; then
-    configure $MYJD_USER $MYJD_PASSWORD
+    configure "$MYJD_USER" "$MYJD_PASSWORD"
 fi
 
 # Debugging helper - if the container crashes, create a file called "jdownloader-block.txt" in the download folder
