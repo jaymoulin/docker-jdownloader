@@ -10,7 +10,7 @@ fi
 
 # Debugging helper - if the container crashes, create a file called "jdownloader-block.txt" in the download folder
 # The container will not terminate (and you can run "docker exec -it ... bash")
-if [ -f /Downloads/jdownloader-block.txt ]; then
+if [ -f /opt/JDownloader/Downloads/jdownloader-block.txt ]; then
     sleep 1000000
 fi
 

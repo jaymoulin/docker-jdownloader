@@ -6,7 +6,7 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="1.1.1"
+ARG VERSION="1.2.0"
 LABEL maintainer="Jay MOULIN <https://femtopixel.com/jaymoulin/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 

@@ -18,7 +18,7 @@ Installation
 ---
 
 ```
-docker run -d --init --restart=always -v ~/Downloads:/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -e MYJD_USER=email@email.com -e MYJD_PASSWORD=password jaymoulin/jdownloader
+docker run -d --init --restart=always -v ~/Downloads:/opt/JDownloader/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -e MYJD_USER=email@email.com -e MYJD_PASSWORD=password jaymoulin/jdownloader
 ```
 
 The environment variables are not mandatory.
@@ -46,8 +46,6 @@ docker exec jdownloader configure email@email.com password
 ```
 
 Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
-
-DON'T FORGET TO CHANGE YOUR DEFAULT DOWNLOAD FOLDER to `/Downloads`
 
 Appendixes
 ---
@@ -100,7 +98,7 @@ services:
         ports:
             - 3129:3129
         volumes:
-            - ~/Downloads:/Downloads
+            - ~/Downloads:/opt/JDownloader/Downloads
         environment: 
             MYJD_USER: goofy
             MYJD_PASSWORD: foo
