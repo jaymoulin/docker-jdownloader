@@ -72,6 +72,15 @@ As @jiaz83 stated
 > see https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings
 > default port is 3129
 
+### Direct Connection using a Bridged Network
+
+To get Direct Connection when using a bridged newtwork, please follow these steps:
+
+* Expose 3129 port when creating the container
+* When JDownloader is running, navigate to Settings > Advanced Settings > Search for "myjdownloader" > Find *MyJDownloaderSettings: Custom Device IPs* and enter your host LAN IP using this formatting `["192.168.1.10"]`. If you need to specify more IPs use `["192.168.1.10","10.10.10.10"]`
+* Set *MyJDownloaderSettings: Manual Local Port* to `3129`
+* Set *MyJDownloaderSettings: Direct Connect Mode* to `Allow lan/wan connections with manual port forwarding`
+* Restart JDownloader, connections will now be direct
 
 ### Debugging
 
