@@ -35,7 +35,7 @@ if [ ! -f /opt/JDownloader/JDownloader.jar ]; then
     chmod +x /opt/JDownloader/JDownloader.jar
 fi
 
-java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar &
+java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar -norestart &
 PID=$!
 wait $PID
 wait $PID

@@ -6,9 +6,10 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="1.2.0"
+ARG VERSION="1.3.0"
 LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
+ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
