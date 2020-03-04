@@ -7,7 +7,7 @@ FROM builder
 
 ARG ARCH=armhf
 ARG VERSION="1.2.0"
-LABEL maintainer="Jay MOULIN <https://femtopixel.com/jaymoulin/docker-jdownloader> <https://twitter.com/MoulinJay>"
+LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
