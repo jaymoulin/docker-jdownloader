@@ -45,6 +45,8 @@ or with this command :
 docker exec jdownloader configure email@email.com password
 ```
 
+You can also configure the device name that will appear on MyJdownloader using the environment variable `MYJD_DEVICE_NAME`.
+
 Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
 
 Appendixes
@@ -111,5 +113,6 @@ services:
         environment: 
             MYJD_USER: goofy
             MYJD_PASSWORD: foo
+            MYJD_DEVICE_NAME: mickey
         restart: always
 ```
