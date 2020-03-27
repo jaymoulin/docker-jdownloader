@@ -28,4 +28,6 @@ COPY configure.sh /usr/bin/configure
 EXPOSE 3129
 WORKDIR /opt/JDownloader
 
+ENV XDG_DOWNLOAD_DIR /opt/JDownloader/Downloads
+
 CMD ["/opt/JDownloader/daemon.sh"]
