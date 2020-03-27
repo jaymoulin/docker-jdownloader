@@ -14,17 +14,17 @@ build: qemu-arm-static qemu-aarch64-static
 		FILE=Dockerfile; \
 		if [ $(arch) = amd64 ]; \
 			then archi=$(arch); \
-			image=bellsoft\\/liberica-openjdk-alpine:10-x86_64; \
+			image=bellsoft\\/liberica-openjdk-alpine:latest-x86_64; \
 		elif [ $(arch) = arm32v6 ]; \
 			then archi=armel; \
 			image=balenalib\\/raspberry-pi; \
 			FILE=debian.Dockerfile; \
 		elif [ $(arch) = armhf ]; \
 			then archi=$(arch); \
-			image=bellsoft\\/liberica-openjdk-alpine:10-armv7l; \
+			image=bellsoft\\/liberica-openjdk-alpine:latest-armv7l; \
 		else \
 			archi=arm64; \
-			image=bellsoft\\/liberica-openjdk-alpine:10-aarch64; \
+			image=bellsoft\\/liberica-openjdk-alpine:latest-aarch64; \
 		fi; \
 		cat $$FILE | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
 		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
