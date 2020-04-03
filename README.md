@@ -12,67 +12,94 @@ JDownloader 2 - Docker Image
 
 (This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added.)
 
-This image allows you to have JDownloader 2 daemon installed easily thanks to Docker.
+# Headline
+
+This image allows you to have JDownloader 2 easily installed and controlled via [MyJDownloader](https://my.jdownloader.org/), thanks to Docker. No cluncky and rusty VNC sessions here!
 
 Installation
 ---
 
+Here are some examples to get started with the creation of this container.
+
+### Docker
 ```
-docker run -d --init --restart=always -v ~/Downloads:/opt/JDownloader/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -e MYJD_USER=email@email.com -e MYJD_PASSWORD=password jaymoulin/jdownloader
+docker run -d --init --restart=always -v </path/to/downloads>:/opt/JDownloader/Downloads -v </path/to/appdata/config>:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -p 3129:3129 -e MYJD_USER=email@email.com -e MYJD_PASSWORD=bar -e MYJD_DEVICE_NAME=goofy jaymoulin/jdownloader
 ```
-
-The environment variables are not mandatory.
-
-You can replace `~/Downloads` with the folder you want your downloaded files to go.
-
-It is recommended to add `-v ~/jdownloader/cfg:/opt/JDownloader/cfg` to your command to save all your configurations.
-Note: Use the `-u $(id -u)` part for JDownloader to run as a specific user. It's recommended to use static values (see: https://docs.docker.com/engine/reference/commandline/exec/#options)
-Note: Add `-p 3129:3129` to allow JDownloader direct connections (this has to be forwarded in your router) (see: https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
+### Docker Compose
+```yml
+services:
+   jdownloader:
+    image: jaymoulin/jdownloader
+    container_name: jdownloader
+    restart: always
+    user: 1001:100
+    volumes:
+        - </path/to/appdata/config>:/opt/JDownloader/cfg
+        - </path/to/appdata/logs>:/opt/JDownloader/logs #optional
+        - </path/to/downloads>:/opt/JDownloader/Downloads #optional
+        - /etc/localtime:/etc/localtime:ro #optional
+    environment: 
+            MYJD_USER: email@email.com
+            MYJD_PASSWORD: bar
+            MYJD_DEVICE_NAME: goofy #optional
+            XDG_DOWNLOAD_DIR: /downloads #optional
+    ports:
+        - 3129:3129 
+```
 
 *Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
 
 Configuration
 ---
+You can set many parameters when you configure this container, but you must specify your MyJDownloader login/password to connect to your container.
 
-You must configure your MyJDownloader login/password using this environment variables:
-```
-MYJD_USER=email@email.com
-MYJD_PASSWORD=password
-```
-or with this command :
+### Configuration values 
+| Parameter | Function |
+| :----: | --- |
+| `-v /opt/JDownloader/cfg`| Config file folder, saves your configuration on the host |
+| `-v /opt/JDownloader/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
+| `-v /opt/JDownloader/Downloads` | Downloads folder | 
+| `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
+| `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
+
+### Environment Variables
+| Parameter | Function |
+| :----: | --- |
+| `MYJD_USER=email@email.com` | Your MyJDownloader user |
+| `MYJD_PASSWORD=foo` | Your MyJDownloader password |
+| `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
+| `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
+
+
+If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running
 
 ```
 docker exec jdownloader configure email@email.com password
 ```
 
-You can also configure the device name that will appear on MyJdownloader using the environment variable `MYJD_DEVICE_NAME`, or default download path by changing `XDG_DOWNLOAD_DIR`.
-
-Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
+Other options can be changed on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
 
 Appendixes
 ---
 
-### Direct Connection
+### Direct Connection Mode
 
-As @jiaz83 stated
+Direct Connection mode (or Direct Connections) improves the use of this container via MyJDownloader GUI and is strongly recommended at least in your LAN.
 
-> short explanation what the direct connection mode does.
-> client(app,webinterface,tool...)<-....->JDownloader connections happens either
-> 
-> 1.) client<-apiserver->JDownloader
-> in this(default,fallback) mode both(control- and data-) connections are using the api server.
-> Advantage: no need to forward ports/dyndns
-> Disadvantage: lower bandwidth and higher latency
-> 
-> 2.) client<->JDownloader
-> in this (direct connection) mode, control connections are still using the api server while data connections are directly connecting to the running JDownloader instance without any relay server
-> Advantage: much higher bandwidth and reduced latency
-> Disadvantage: user might have to manually enable/allow port forwarding from LAN and/or WAN IP to JDownloader instance
-> On connection issues, the client will automatically fallback to 1.) and try to re-establish a direct connection again.
-> 
-> by default direct connection mode is set to LAN, so only clients from LAN can connect directly.
-> see https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings
-> default port is 3129
+By enabling this mode, the communication happens directly between the client and the JDownloader server via port 3129 (by default), instead of being routed trough MyJDownloader servers. This enables the GUI to respond much faster with information reliably updating over time.
+In this mode, MyJDownloader server still handles service related tasks, like the session authentication and notifications.
+
+To enable Direct Connection mode from internet, you need to open and forward port 3129 adjusting your router configuration. Please find more information in this [JDownloader's article](https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
+
+#### DNS Rebind Warning
+If you are running a router like Fritz!Box, Asus, OpenWRT, DDWRT, pfSense or any other 3rd party *advanced* routers you may have DNS Rebind Protection enabled: Direct Connections will not work, you will have to explicitly whitelist `mydns.jdownloader.org`. The procedure is different for every router, here are some tips:
+
+* Fritz!Box: [KB Article](https://support.jdownloader.org/Knowledgebase/Article/View/51) from JDownloader
+* Asus Merlin: Follow [this procedure](https://github.com/RMerl/asuswrt-merlin.ng/wiki/Custom-domains-with-dnsmasq) to enable custom scripts and edit the dnsmasq file, then add the line `rebind-domain-ok=/mydns.jdownloader.org/`
+* OpenWRT: browse to Network>DHCP and DNS>General Settings and add `mydns.jdownloader.org` to Domain Whitelist
+* pfSense: more information [here](https://github.com/jaymoulin/docker-jdownloader/issues/61#issuecomment-607474205)
+
+
 
 ### Direct Connection using a Bridged Network
 
@@ -97,22 +124,4 @@ If you don't have Docker installed yet, you can do it easily in one line using t
 curl -sSL "https://gist.githubusercontent.com/jaymoulin/e749a189511cd965f45919f2f99e45f3/raw/0e650b38fde684c4ac534b254099d6d5543375f1/ARM%2520(Raspberry%2520PI)%2520Docker%2520Install" | sudo sh && sudo usermod -aG docker $USER
 ```
 
-### Docker compose
 
-Here is an example of docker-compose file
-
-```yml
-version: "2"
-services:
-    jdownloader:
-        image: jaymoulin/jdownloader
-        ports:
-            - 3129:3129
-        volumes:
-            - ~/Downloads:/opt/JDownloader/Downloads
-        environment: 
-            MYJD_USER: goofy
-            MYJD_PASSWORD: foo
-            MYJD_DEVICE_NAME: mickey
-        restart: always
-```
