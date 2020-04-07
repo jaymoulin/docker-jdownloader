@@ -19,11 +19,11 @@ Installation
 
 Here are some examples to get started with the creation of this container.
 
-### docker
+### Docker
 ```
-docker run -d --init --restart=always -v ~/Downloads:/opt/JDownloader/Downloads -v ~/jdownloader/cfg:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -e MYJD_USER=email@email.com -e MYJD_PASSWORD=password jaymoulin/jdownloader
+docker run -d --init --restart=always -v </path/to/downloads>:/opt/JDownloader/Downloads -v </path/to/appdata/config>:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -p 3129:3129 -e MYJD_USER=email@email.com -e MYJD_PASSWORD=bar -e MYJD_DEVICE_NAME=goofy jaymoulin/jdownloader
 ```
-### docker-compose
+### Docker Compose
 ```yml
 services:
    jdownloader:
@@ -58,7 +58,7 @@ You can set many parameters when you configure this container, but you must spec
 | `-v /opt/JDownloader/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
 | `-v /opt/JDownloader/Downloads` | Downloads folder | 
 | `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
-| `-p 3129:3129` | Network port needed for Direct Connections, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
+| `-p 3129:3129` | This Network port is required for Direct Connections, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
 
 ### Environment Variables
 | Parameter | Function |
@@ -69,15 +69,13 @@ You can set many parameters when you configure this container, but you must spec
 | `XDG_DOWNLOAD_DIR=/downloads` | If you use this variable, set it as per the downloads folder volume! |
 
 
-If you don't set MYJD_USER and MYJD_PASSWORD values, you can still configure the account by running
+If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running
 
 ```
 docker exec jdownloader configure email@email.com password
 ```
 
-You can also configure the device name that will appear on MyJdownloader using the environment variable `MYJD_DEVICE_NAME`, or default download path by changing `XDG_DOWNLOAD_DIR`.
-
-Everything else can be configurable on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
+Other options can be changed on your MyJDownloader account : https://my.jdownloader.org/index.html#dashboard.
 
 Appendixes
 ---
@@ -127,9 +125,5 @@ If you don't have Docker installed yet, you can do it easily in one line using t
 ```
 curl -sSL "https://gist.githubusercontent.com/jaymoulin/e749a189511cd965f45919f2f99e45f3/raw/0e650b38fde684c4ac534b254099d6d5543375f1/ARM%2520(Raspberry%2520PI)%2520Docker%2520Install" | sudo sh && sudo usermod -aG docker $USER
 ```
-
-### Docker compose
-
-Here is an example of docker-compose file
 
 
