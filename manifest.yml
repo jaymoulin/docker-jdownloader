@@ -21,8 +21,3 @@ manifests:
     platform:
       architecture: amd64
       os: linux
-  -
-    image: jaymoulin/jdownloader:$VERSION-i386
-    platform:
-      architecture: 386
-      os: linux

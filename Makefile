@@ -1,7 +1,7 @@
-VERSION ?= 1.2.0
+VERSION ?= 1.3.1
 CACHE ?= --no-cache=1
 FULLVERSION ?= ${VERSION}
-archs ?= amd64 arm32v6 armhf arm64v8 i386
+archs ?= amd64 arm32v6 armhf arm64v8
 
 .PHONY: all build publish latest
 all: build publish latest
@@ -12,19 +12,19 @@ qemu-aarch64-static:
 build: qemu-arm-static qemu-aarch64-static
 	$(foreach arch,$(archs), \
 		FILE=Dockerfile; \
-		if [ $(arch) = armhf ]; \
-			then archi=armhf; \
-			image=jaymoulin\\/oracle-jdk:armhf; \
-		elif [ $(arch) = arm64v8 ]; \
-			then archi=arm64; \
-			image=${arch}\\/openjdk:jre-alpine; \
+		if [ $(arch) = amd64 ]; \
+			then archi=$(arch); \
+			image=bellsoft\\/liberica-openjdk-alpine:10-x86_64; \
 		elif [ $(arch) = arm32v6 ]; \
 			then archi=armel; \
 			image=balenalib\\/raspberry-pi; \
 			FILE=debian.Dockerfile; \
+		elif [ $(arch) = armhf ]; \
+			then archi=$(arch); \
+			image=bellsoft\\/liberica-openjdk-alpine:10-armv7l; \
 		else \
-			archi=$(arch); \
-			image=${arch}\\/openjdk:jre-alpine; \
+			archi=arm64; \
+			image=bellsoft\\/liberica-openjdk-alpine:10-aarch64; \
 		fi; \
 		cat $$FILE | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
 		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
