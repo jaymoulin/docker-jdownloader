@@ -12,7 +12,9 @@ JDownloader 2 - Docker Image
 
 (This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added.)
 
-This image allows you to have JDownloader 2 daemon installed easily thanks to Docker.
+# Headline
+
+This image allows you to have JDownloader 2 easily installed and controlled via [MyJDownloader](https://my.jdownloader.org/), thanks to Docker. No cluncky and rusty VNC sessions here!
 
 Installation
 ---
@@ -82,7 +84,7 @@ Appendixes
 
 ### Direct Connection Mode
 
-Direct Connection mode (or Direct Connections) improves the use of this container via MyJDownloader GUI.
+Direct Connection mode (or Direct Connections) improves the use of this container via MyJDownloader GUI and is strongly recommended at least in your LAN.
 
 By enabling this mode, the communication happens directly between the client and the JDownloader server via port 3129 (by default), instead of being routed trough MyJDownloader servers. This enables the GUI to respond much faster with information reliably updating over time.
 In this mode, MyJDownloader server still handles service related tasks, like the session authentication and notifications.
