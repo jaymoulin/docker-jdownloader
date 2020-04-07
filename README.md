@@ -34,7 +34,7 @@ services:
     volumes:
         - </path/to/appdata/config>:/opt/JDownloader/cfg
         - </path/to/appdata/logs>:/opt/JDownloader/logs #optional
-        - </path/to/downloads>:/downloads #optional
+        - </path/to/downloads>:/opt/JDownloader/Downloads #optional
         - /etc/localtime:/etc/localtime:ro #optional
     environment: 
             MYJD_USER: email@email.com
@@ -66,7 +66,7 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_USER=email@email.com` | Your MyJDownloader user |
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
-| `XDG_DOWNLOAD_DIR=/downloads` | If you use this variable, set it as per the downloads folder volume! |
+| `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
 
 
 If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running
