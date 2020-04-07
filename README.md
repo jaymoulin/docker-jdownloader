@@ -58,7 +58,7 @@ You can set many parameters when you configure this container, but you must spec
 | `-v /opt/JDownloader/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
 | `-v /opt/JDownloader/Downloads` | Downloads folder | 
 | `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
-| `-p 3129:3129` | This Network port is required for Direct Connections, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
+| `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
 
 ### Environment Variables
 | Parameter | Function |
@@ -80,35 +80,24 @@ Other options can be changed on your MyJDownloader account : https://my.jdownloa
 Appendixes
 ---
 
-### Direct Connection
+### Direct Connection Mode
 
-To enable Direct Connection mode from internet, you need to forward the port 3129 in your Router. Please find more information in this [JDownloader's article](https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
+Direct Connection mode (or Direct Connections) improves the use of this container via MyJDownloader GUI.
 
-**DNS Rebind Warning** if you are running a router like Fritz!Box, Asus, OpenWRT, DDWRT, pfSense or any other 3rd party *advanced* routers you may have DNS Rebind Protection enabled: Direct Connections will not work, you will have to explicitly whitelist `mydns.jdownloader.org`. The procedure is different for every router, here are some tips:
+By enabling this mode, the communication happens directly between the client and the JDownloader server via port 3129 (by default), instead of being routed trough MyJDownloader servers. This enables the GUI to respond much faster with information reliably updating over time.
+In this mode, MyJDownloader server still handles service related tasks, like the session authentication and notifications.
+
+To enable Direct Connection mode from internet, you need to open and forward port 3129 adjusting your router configuration. Please find more information in this [JDownloader's article](https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
+
+#### DNS Rebind Warning
+If you are running a router like Fritz!Box, Asus, OpenWRT, DDWRT, pfSense or any other 3rd party *advanced* routers you may have DNS Rebind Protection enabled: Direct Connections will not work, you will have to explicitly whitelist `mydns.jdownloader.org`. The procedure is different for every router, here are some tips:
 
 * Fritz!Box: [KB Article](https://support.jdownloader.org/Knowledgebase/Article/View/51) from JDownloader
 * Asus Merlin: Follow [this procedure](https://github.com/RMerl/asuswrt-merlin.ng/wiki/Custom-domains-with-dnsmasq) to enable custom scripts and edit the dnsmasq file, then add the line `rebind-domain-ok=/mydns.jdownloader.org/`
 * OpenWRT: browse to Network>DHCP and DNS>General Settings and add `mydns.jdownloader.org` to Domain Whitelist
 * pfSense: more information [here](https://github.com/jaymoulin/docker-jdownloader/issues/61#issuecomment-607474205)
 
-As @jiaz83 stated
-> short explanation what the direct connection mode does.
-> client(app,webinterface,tool...)<-....->JDownloader connections happens either
-> 
-> 1.) client<-apiserver->JDownloader
-> in this(default,fallback) mode both(control- and data-) connections are using the api server.
-> Advantage: no need to forward ports/dyndns
-> Disadvantage: lower bandwidth and higher latency
-> 
-> 2.) client<->JDownloader
-> in this (direct connection) mode, control connections are still using the api server while data connections are directly connecting to the running JDownloader instance without any relay server
-> Advantage: much higher bandwidth and reduced latency
-> Disadvantage: user might have to manually enable/allow port forwarding from LAN and/or WAN IP to JDownloader instance
-> On connection issues, the client will automatically fallback to 1.) and try to re-establish a direct connection again.
-> 
-> by default direct connection mode is set to LAN, so only clients from LAN can connect directly.
-> see https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings
-> default port is 3129
+
 
 ### Direct Connection using a Bridged Network
 
