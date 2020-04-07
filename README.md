@@ -83,7 +83,6 @@ Appendixes
 ### Direct Connection
 
 To enable Direct Connection mode from internet, you need to forward the port 3129 in your Router. Please find more information in this [JDownloader's article](https://support.jdownloader.org/Knowledgebase/Article/View/33/0/myjdownloader-advanced-settings)
-As @jiaz83 stated
 
 **DNS Rebind Warning** if you are running a router like Fritz!Box, Asus, OpenWRT, DDWRT, pfSense or any other 3rd party *advanced* routers you may have DNS Rebind Protection enabled: Direct Connections will not work, you will have to explicitly whitelist `mydns.jdownloader.org`. The procedure is different for every router, here are some tips:
 
@@ -92,8 +91,7 @@ As @jiaz83 stated
 * OpenWRT: browse to Network>DHCP and DNS>General Settings and add `mydns.jdownloader.org` to Domain Whitelist
 * pfSense: more information [here](https://github.com/jaymoulin/docker-jdownloader/issues/61#issuecomment-607474205)
 
-
-
+As @jiaz83 stated
 > short explanation what the direct connection mode does.
 > client(app,webinterface,tool...)<-....->JDownloader connections happens either
 > 
