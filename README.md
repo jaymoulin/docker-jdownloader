@@ -10,7 +10,7 @@ JDownloader 2 - Docker Image
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png "Buy me a coffee")](https://www.buymeacoffee.com/3Yu8ajd7W)
 [![Become a Patron](https://badgen.net/badge/become/a%20patron/F96854 "Become a Patron")](https://patreon.com/jaymoulin)
 
-(This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added.)
+(This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance, support and stability there are many desirable features yet to be added.)
 
 # Headline
 
@@ -35,14 +35,14 @@ services:
     user: 1001:100
     volumes:
         - </path/to/appdata/config>:/opt/JDownloader/cfg
+        - </path/to/downloads>:/opt/JDownloader/Downloads
         - </path/to/appdata/logs>:/opt/JDownloader/logs #optional
-        - </path/to/downloads>:/opt/JDownloader/Downloads #optional
         - /etc/localtime:/etc/localtime:ro #optional
     environment: 
-            MYJD_USER: email@email.com
-            MYJD_PASSWORD: bar
+            MYJD_USER: email@email.com #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+            MYJD_PASSWORD: bar #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_DEVICE_NAME: goofy #optional
-            XDG_DOWNLOAD_DIR: /downloads #optional
+            XDG_DOWNLOAD_DIR: /opt/JDownloader/Downloads #optional
     ports:
         - 3129:3129 
 ```
@@ -58,7 +58,7 @@ You can set many parameters when you configure this container, but you must spec
 | :----: | --- |
 | `-v /opt/JDownloader/cfg`| Config file folder, saves your configuration on the host |
 | `-v /opt/JDownloader/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
-| `-v /opt/JDownloader/Downloads` | Downloads folder | 
+| `-v /opt/JDownloader/Downloads` | Downloads folder (where you put your `download` mountpoint) | 
 | `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
 | `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
 
@@ -70,8 +70,8 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
 
-
-If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running
+#### Identify
+If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running (Recommended method)
 
 ```
 docker exec jdownloader configure email@email.com password
@@ -113,7 +113,7 @@ To get Direct Connection when using a bridged newtwork, please follow these step
 
 ### Debugging
 
-You can put a file called `jdownloader-block.txt` file in your Download folder to pose the container start.
+You can put a file called `jdownloader-block.txt` file in your Download folder to pause the container start.
 This will allow to connect to the container with a shell to debug. (`docker exec -it jdownloader sh`) 
 
 ### Install Docker
