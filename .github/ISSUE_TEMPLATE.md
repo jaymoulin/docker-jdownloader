@@ -28,6 +28,12 @@ https://github.com/jaymoulin/docker-jdownloader/blob/master/CONTRIBUTING.md
 You do NOT have to include this information if this is a FEATURE REQUEST
 
 If you find this useful, please consider starring the repo and/or donating.
+
+Here are some platform where you can donate
+https://www.paypal.me/jaymoulin
+https://www.buymeacoffee.com/3Yu8ajd7W
+https://patreon.com/jaymoulin.
+
 People showing interest attract more attention ;)
 -->
 
