@@ -37,6 +37,12 @@ if [ ! -f /opt/JDownloader/JDownloader.jar ]; then
     chmod +x /opt/JDownloader/JDownloader.jar
 fi
 
+# Defines umask - should respect octal format
+if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
+    echo "Defining umask to $UMASK"
+    umask "$UMASK"
+fi
+
 java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar -norestart &
 PID=$!
 wait $PID
