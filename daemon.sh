@@ -4,11 +4,13 @@ trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/JDownloader.jar.*
 rm -f /opt/JDownloader/JDownloader.pid
 
-if [ ! -z "$MYJD_USER" ] && [ ! -z "$MYJD_PASSWORD" ]; then
+# Login user with env credentials - Please prefer command way
+if [ -n "$MYJD_USER" ] && [ -n "$MYJD_PASSWORD" ]; then
     configure "$MYJD_USER" "$MYJD_PASSWORD"
 fi
 
-if [ ! -z "$MYJD_DEVICE_NAME" ]; then
+# Defining device name to jdownloader interface - please prefer this method than changing on MyJDownloader to keep correct binding
+if [ -n "$MYJD_DEVICE_NAME" ]; then
     sed -Ei "s/\"devicename\" : .+\"(,?)/\"devicename\" : \"$MYJD_DEVICE_NAME\"\1/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 fi
 
@@ -31,7 +33,7 @@ fi
 
 # Redownload if no JDownloader exists
 if [ ! -f /opt/JDownloader/JDownloader.jar ]; then
-    wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM"
+    wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar"
     chmod +x /opt/JDownloader/JDownloader.jar
 fi
 
