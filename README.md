@@ -69,7 +69,7 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
-| `UMASK=0777` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
+| `UMASK=0777` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) - **TIP** If you want your downloads generally available in your system, you can set a value of `002` which assigns full control to owner and group, whilst others can read and execute.|
 
 #### Identify
 If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running (Recommended method)
