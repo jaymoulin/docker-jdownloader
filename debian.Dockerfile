@@ -6,7 +6,7 @@ COPY qemu-aarch64-static /usr/bin/
 FROM builder
 
 ARG ARCH=armel
-ARG VERSION="1.3.1"
+ARG VERSION="1.4.2"
 LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
