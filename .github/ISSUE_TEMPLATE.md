@@ -1,4 +1,7 @@
 <!--
+DISCLAIMER: As-of 2021, this product does not have a free support team anymore. 
+If you want this product to be maintained, please support on Patreon.
+
 YOU HAVE TO READ THIS, YOUR ISSUE WILL BE IGNORED IF NOT READ AND RESPECTED.
 
 If you are reporting a new issue, make sure that we do not have any duplicates
