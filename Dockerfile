@@ -13,6 +13,8 @@ ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 ENV UMASK=''
 
+VOLUME /opt/JDownloader
+
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
