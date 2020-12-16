@@ -30,6 +30,7 @@ COPY configure.sh /usr/bin/configure
 EXPOSE 3129
 WORKDIR /opt/JDownloader
 
+RUN ls -latr /opt/JDownloader/
 RUN chmod +x /opt/JDownloader/daemon.sh
 RUN chmod +x /usr/bin/configure
 
