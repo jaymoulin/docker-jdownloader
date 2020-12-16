@@ -22,6 +22,15 @@ if [ -f /opt/JDownloader/Downloads/jdownloader-block.txt ]; then
     sleep 1000000
 fi
 
+ls -latr /opt/JDownloader/
+
+# Check if volume needs init
+if [ ! -f /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist ]; then
+    cp -r /init/* /opt/JDownloader/
+fi
+
+ls -latr /opt/JDownloader/
+
 # Check JDownloader.jar integrity and removes it in case it's not
 jar tvf /opt/JDownloader/JDownloader.jar > /dev/null 2>&1
 if [ $? -ne 0 ]; then

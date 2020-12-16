@@ -19,24 +19,22 @@ ENV UMASK=''
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --update libstdc++ ffmpeg wget jq moreutils@testing
 
-# Copy configure script
-COPY ./scripts/configure.sh /usr/bin/configure
-
 # Here happens the magic :-)
-RUN mkdir -p /opt/JDownloader && \
-    wget -O /opt/JDownloader/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
-    chmod +x /opt/JDownloader/JDownloader.jar && \
-    chmod -R 777 /opt/JDownloader/
+RUN mkdir -p /init && \
+    mkdir -p /opt/JDownloader && \
+    wget -O /init/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
+    chmod +x /init/JDownloader.jar && \
+    chmod -R 777 /opt/JDownloader* /init
 
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-COPY ./ressources/${ARCH}/*.jar /opt/JDownloader/libs/
-COPY ./scripts/entrypoint.sh /opt/JDownloader/
-COPY ./config/default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
+COPY ./ressources/${ARCH}/*.jar /init/libs/
+COPY ./scripts/entrypoint.sh /
+COPY ./config/default-config.json.dist /init/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
+COPY ./scripts/configure.sh /usr/bin/configure
 
 EXPOSE 3129
 WORKDIR /opt/JDownloader
-
 VOLUME /opt/JDownloader
 
-CMD ["/opt/JDownloader/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
