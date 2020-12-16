@@ -4,6 +4,8 @@ trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/JDownloader.jar.*
 rm -f /opt/JDownloader/JDownloader.pid
 
+SETTINGSFILE="/opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json"
+
 # Login user with env credentials - Please prefer command way
 if [ -n "$MYJD_USER" ] && [ -n "$MYJD_PASSWORD" ]; then
     configure "$MYJD_USER" "$MYJD_PASSWORD"
@@ -11,7 +13,7 @@ fi
 
 # Defining device name to jdownloader interface - please prefer this method than changing on MyJDownloader to keep correct binding
 if [ -n "$MYJD_DEVICE_NAME" ]; then
-    sed -Ei "s/\"devicename\" : .+\"(,?)/\"devicename\" : \"$MYJD_DEVICE_NAME\"\1/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+    jq --arg v "${MYJD_DEVICE_NAME}" '.devicename = $v' ${SETTINGSFILE} | sponge ${SETTINGSFILE}
 fi
 
 # Debugging helper - if the container crashes, create a file called "jdownloader-block.txt" in the download folder

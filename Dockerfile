@@ -1,39 +1,46 @@
-FROM openjdk:jre-alpine as builder
+FROM openjdk:jre-alpine
 
-COPY qemu-aarch64-static /usr/bin/
-COPY qemu-arm-static /usr/bin/
+# set args
+ARG BUILD_DATE
+ARG VERSION
+ARG ARCH
+ARG NAME
 
-FROM builder
+# set labels
+LABEL maintainer="Thomas Deutsch <thomas@tuxpeople.org>"
+LABEL build_version="${NAME} Version:- ${VERSION} Build-date:- ${BUILD_DATE} Arch:- ${ARCH}"
 
-ARG ARCH=armhf
-ARG VERSION="1.4.2"
-LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
-LABEL version="${VERSION}-${ARCH}"
+# set env
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 ENV UMASK=''
 
-COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
+# Upgrade and install dependencies
+RUN apk add --update libstdc++ ffmpeg wget jq moreutils
+
+# Copy configure script
+COPY ./scripts/configure.sh /usr/bin/configure
+
+# Non privileged user
+USER jdownloader
+
+# Here happens the magic :-)
+RUN mkdir -p /opt/JDownloader/ && \
+    wget -O /opt/JDownloader/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar " && \
+    chmod +x /opt/JDownloader/JDownloader.jar && \
+    chmod -R 755 /opt/JDownloader/
+
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN mkdir -p /opt/JDownloader/ && \
-    apk add --update libstdc++ ffmpeg wget && \
-    wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
-    chmod +x /opt/JDownloader/JDownloader.jar && \
-    chmod 777 /opt/JDownloader/ -R && \
-    rm /usr/bin/qemu-*-static
-
-COPY daemon.sh /opt/JDownloader/
-COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
-COPY configure.sh /usr/bin/configure
+COPY ./ressources/${ARCH}/*.jar /opt/JDownloader/libs/
+COPY ./scripts/entrypoint.sh /opt/JDownloader/
+COPY ./config/default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 
 EXPOSE 3129
 WORKDIR /opt/JDownloader
 
 RUN ls -latr /opt/JDownloader/
-RUN chmod +x /opt/JDownloader/daemon.sh
-RUN chmod +x /usr/bin/configure
 
 VOLUME /opt/JDownloader
 
-CMD ["/opt/JDownloader/daemon.sh"]
+CMD ["/opt/JDownloader/entrypoint.sh"]

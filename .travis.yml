@@ -1,0 +1,25 @@
+# Use container-based infrastructure for quicker build start-up
+sudo: false
+
+# Use generic image to cut start-up time
+language: generic
+
+services:
+  - docker
+
+before_script:
+ - bash ./.travis/checkx.sh
+ - bash ./.travis/run-linters.sh
+
+script:
+ - bash ./.travis/build-deploy.sh
+
+# Set up notification options
+notifications: 
+  email:
+    recipients:
+      - thomas@tuxpeople.org
+
+    # change is when the repo status goes from pass to fail or vice versa
+    on_success: change
+    on_failure: always
