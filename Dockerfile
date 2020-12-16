@@ -17,17 +17,18 @@ ENV UMASK=''
 
 # Upgrade and install dependencies
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --update libstdc++ ffmpeg wget jq moreutils@testing
+    apk add --update libstdc++ ffmpeg wget jq moreutils@testing && \
+    mkdir -p /opt/JDownloader
 
 # Copy configure script
 COPY ./scripts/configure.sh /usr/bin/configure
 
 # Non privileged user
+RUN adduser --home /opt/JDownloader --shell /bin/bash --disabled-password jdownloader
 USER jdownloader
 
 # Here happens the magic :-)
-RUN mkdir -p /opt/JDownloader/ && \
-    wget -O /opt/JDownloader/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar " && \
+RUN wget -O /opt/JDownloader/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
     chmod +x /opt/JDownloader/JDownloader.jar && \
     chmod -R 755 /opt/JDownloader/
 
@@ -39,8 +40,6 @@ COPY ./config/default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjd
 
 EXPOSE 3129
 WORKDIR /opt/JDownloader
-
-RUN ls -latr /opt/JDownloader/
 
 VOLUME /opt/JDownloader
 
