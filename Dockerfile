@@ -16,7 +16,7 @@ ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 ENV UMASK=''
 
 # Upgrade and install dependencies
-RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --update libstdc++ ffmpeg wget jq moreutils@testing
 
 # Copy configure script
