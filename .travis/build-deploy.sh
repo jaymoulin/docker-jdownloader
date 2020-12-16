@@ -120,7 +120,7 @@ function multi_arch_docker::test_all() {
       docker run --rm --entrypoint /bin/sh "$image" -c 'uname -m'
 
       # Run your test on the built image.
-      #docker run --rm -v "$PWD:/mnt" -w /mnt "$image" # <your-arguments-here>
+      docker run --rm -v "$PWD:/opt/JDownloader" -u $(id -u) -p 3129:3129 "$image" # <your-arguments-here>
     done
   done
 }
