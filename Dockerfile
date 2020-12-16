@@ -16,8 +16,9 @@ ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 ENV UMASK=''
 
 # Upgrade and install dependencies
+# hadolint ignore=DL3018
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --update libstdc++ ffmpeg wget jq moreutils@testing
+    apk add --no-cache libstdc++ ffmpeg wget jq moreutils@testing
 
 # Here happens the magic :-)
 RUN mkdir -p /init && \
