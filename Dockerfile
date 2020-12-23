@@ -20,6 +20,8 @@ ENV LC_COLLATE="C"
 ENV LANGUAGE="C.UTF-8"
 ENV LC_ALL="C.UTF-8"
 
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM && exit 1"
+
 # Upgrade and install dependencies
 # hadolint ignore=DL3018,DL3019
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
