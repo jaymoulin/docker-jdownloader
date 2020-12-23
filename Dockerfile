@@ -3,12 +3,13 @@ FROM openjdk:jre-alpine
 # set args
 ARG BUILD_DATE
 ARG VERSION
-ARG ARCH
+ARG TARGETARCH
+ARG TARGETPLATFORM
 ARG NAME
 
 # set labels
 LABEL maintainer="Thomas Deutsch <thomas@tuxpeople.org>"
-LABEL build_version="${NAME} Version:- ${VERSION} Build-date:- ${BUILD_DATE} Arch:- ${ARCH}"
+LABEL build_version="${NAME} Version:- ${VERSION} Build-date:- ${BUILD_DATE} Arch:- ${TARGETPLATFORM}"
 
 # set env
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
@@ -20,13 +21,13 @@ ENV LC_COLLATE="C"
 ENV LANGUAGE="C.UTF-8"
 ENV LC_ALL="C.UTF-8"
 
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG TARGETVARIANT
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
-RUN echo "$TARGETPLATFORM consists of $TARGETOS, $TARGETARCH and $TARGETVARIANT"
+# ARG TARGETPLATFORM
+# ARG BUILDPLATFORM
+# ARG TARGETOS
+# ARG TARGETARCH
+# ARG TARGETVARIANT
+# RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+# RUN echo "$TARGETPLATFORM consists of $TARGETOS, $TARGETARCH and $TARGETVARIANT"
 
 # Upgrade and install dependencies
 # hadolint ignore=DL3018,DL3019
@@ -40,7 +41,7 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/
 
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-COPY ./ressources/${ARCH}/*.jar /init/libs/
+COPY ./ressources/${TARGETARCH}/*.jar /init/libs/
 COPY ./scripts/entrypoint.sh /
 COPY ./config/default-config.json.dist /init/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
 COPY ./scripts/configure.sh /usr/bin/configure
