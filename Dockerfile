@@ -21,9 +21,9 @@ ENV LANGUAGE="C.UTF-8"
 ENV LC_ALL="C.UTF-8"
 
 # Upgrade and install dependencies
-# hadolint ignore=DL3018
+# hadolint ignore=DL3018,DL3019
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --no-cache libstdc++ ffmpeg wget jq moreutils@testing && \
+    apk add --no-cache --upgrade libstdc++ ffmpeg wget jq moreutils@testing && \
     mkdir -p /init && \
     mkdir -p /opt/JDownloader && \
     wget -O /init/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
