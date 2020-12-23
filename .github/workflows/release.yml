@@ -1,0 +1,108 @@
+name: ci
+
+# This worflow needs those secrets:
+#
+# DOCKER_IMAGE = Full Name of the quay.io image (quay.io/<user>/<image>)
+# REGISTRY_USERNAME = Quay.io username
+# REGISTRY_TOKEN = Quay.io token
+# DOCKERUSER = Docker Hub username
+# DOCKERPASSWORD = Docker Hub token
+
+on:
+  push:
+    branches: master
+    tags: 'v*.*.*'
+  schedule:
+    - cron: "0 13 * * 1"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Prepare
+        id: prep
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            if [[ $VERSION =~ ^v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$ ]]; then
+               MAJOR="${BASH_REMATCH[1]}"
+               MINOR="${BASH_REMATCH[2]}"
+               PATCH="${BASH_REMATCH[3]}"
+
+               TAGS="${{ secrets.DOCKER_IMAGE }}:latest"
+               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}"
+               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}.${MINOR}"
+               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}.${MINOR}.${PATCH}"
+            else
+               TAGS="${{ secrets.DOCKER_IMAGE }}:${VERSION}"
+            fi
+          elif [[ $GITHUB_REF == refs/heads/* ]]; then
+            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+            if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
+              VERSION=edge
+            fi
+            TAGS="${{ secrets.DOCKER_IMAGE }}:${VERSION}"
+          elif [[ $GITHUB_REF == refs/pull/* ]]; then
+            TAGS="${{ secrets.DOCKER_IMAGE }}:pr-${{ github.event.number }}"
+          fi
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      -
+        name: Generate Build-Args
+        id: build-args
+        run: |
+          # echo ::set-output name=build-arg1::"buildarg1"
+          # echo ::set-output name=build-arg2::"buildarg2"
+      -
+        name: Hadolint
+        uses: brpaz/hadolint-action@v1.3.1
+        with: 
+          dockerfile: Dockerfile
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to Quay.io
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64,linux/i386
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            ${{ steps.build-args.outputs.build-arg1 }}
+            ${{ steps.build-args.outputs.build-arg2 }}
+          labels: |
+            org.opencontainers.image.title=${{ github.event.repository.name }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+      -
+        name: Copy to Docker Hub
+        id: copy_images
+        run: |
+          for i in $(echo ${{ steps.prep.outputs.tags }} | sed "s/,/ /g")
+          do
+              GHTAG=$(echo $i | sed "s/quay.io/docker.io/g" | sed "s/${{ secrets.REGISTRY_USERNAME }}/${{ secrets.DOCKERUSER }}/g")
+              skopeo copy --src-creds=${{ secrets.REGISTRY_USERNAME }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ secrets.DOCKERUSER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
+          done
