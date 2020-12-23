@@ -22,7 +22,11 @@ ENV LC_ALL="C.UTF-8"
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM && exit 1"
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+RUN echo "$TARGETPLATFORM consists of $TARGETOS, $TARGETARCH and $TARGETVARIANT"
 
 # Upgrade and install dependencies
 # hadolint ignore=DL3018,DL3019
