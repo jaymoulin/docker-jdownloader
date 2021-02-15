@@ -10,10 +10,12 @@ name: ci
 
 on:
   push:
-    branches: master
+    branches: [master, main]
     tags: 'v*.*.*'
   schedule:
     - cron: "0 13 * * 1"
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
 
 jobs:
   docker:
@@ -83,7 +85,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/arm64,linux/i386
+          platforms: linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
@@ -104,5 +106,5 @@ jobs:
           for i in $(echo ${{ steps.prep.outputs.tags }} | sed "s/,/ /g")
           do
               GHTAG=$(echo $i | sed "s/quay.io/docker.io/g" | sed "s/${{ secrets.REGISTRY_USERNAME }}/${{ secrets.DOCKERUSER }}/g")
-              skopeo copy --src-creds=${{ secrets.REGISTRY_USERNAME }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ secrets.DOCKERUSER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
+              skopeo copy --all --src-creds=${{ secrets.REGISTRY_USERNAME }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ secrets.DOCKERUSER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
           done
