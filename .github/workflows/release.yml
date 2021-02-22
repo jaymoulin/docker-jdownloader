@@ -13,8 +13,8 @@ on:
     - cron: "0 13 * * 1"
 
 env:
-  PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"     # Build for which platforms
-  IMAGENAME: "quay.io/tdeutsch/onetimesecret"                        # Name of the image
+  PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"       # Build for which platforms
+  IMAGENAME: "quay.io/tdeutsch/jdownloader-headless"                 # Name of the image
   DEFAULT_TAG: "latest"                                              # Which tag is beeing used if we are building for master/main branch 
   QUAY_USER: "tdeutsch"                                              # Which user to use to login to quay.io
   DOCKER_USER: "tdeutsch"                                            # Which user to use to login to DockerHub
