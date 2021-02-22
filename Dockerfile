@@ -35,7 +35,7 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/
     apk add --no-cache --upgrade libstdc++ ffmpeg wget jq moreutils@testing && \
     mkdir -p /init && \
     mkdir -p /opt/JDownloader && \
-    wget -O /init/JDownloader.jar --user-agent="Travis CI Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
+    wget -O /init/JDownloader.jar --user-agent="Github Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
     chmod +x /init/JDownloader.jar && \
     chmod -R 777 /opt/JDownloader* /init
 
