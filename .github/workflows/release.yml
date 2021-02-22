@@ -2,10 +2,7 @@ name: ci
 
 # This worflow needs those secrets:
 #
-# DOCKER_IMAGE = Full Name of the quay.io image (quay.io/<user>/<image>)
-# REGISTRY_USERNAME = Quay.io username
 # REGISTRY_TOKEN = Quay.io token
-# DOCKERUSER = Docker Hub username
 # DOCKERPASSWORD = Docker Hub token
 
 on:
@@ -14,13 +11,34 @@ on:
     tags: 'v*.*.*'
   schedule:
     - cron: "0 13 * * 1"
-  pull_request:
-    types: [assigned, opened, synchronize, reopened]
+
+env:
+  PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"     # Build for which platforms
+  IMAGENAME: "quay.io/tdeutsch/onetimesecret"                        # Name of the image
+  DEFAULT_TAG: "latest"                                              # Which tag is beeing used if we are building for master/main branch 
+  QUAY_USER: "tdeutsch"                                              # Which user to use to login to quay.io
+  DOCKER_USER: "tdeutsch"                                            # Which user to use to login to DockerHub
+
+#####
+# To rebuild someone else's repo, do this:
+#
+# - New env    REPOSITORY: "githubuser/githubrepo"
+# - Add this to the checkout:
+#        with:
+#          repository: ${{ env.REPOSITORY }}
+# - One may also need to disable hadolint, due to the quality of others Dockerfile
+#####
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      -
+        name: Generate Build-Args
+        id: build-args
+        run: |
+          # echo ::set-output name=build-arg1::"buildarg1"
+          # echo ::set-output name=build-arg2::"buildarg2"
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -35,30 +53,24 @@ jobs:
                MINOR="${BASH_REMATCH[2]}"
                PATCH="${BASH_REMATCH[3]}"
 
-               TAGS="${{ secrets.DOCKER_IMAGE }}:latest"
-               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}"
-               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}.${MINOR}"
-               TAGS="${TAGS},${{ secrets.DOCKER_IMAGE }}:${MAJOR}.${MINOR}.${PATCH}"
+               TAGS="${{ env.IMAGENAME }}:latest"
+               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}"
+               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}.${MINOR}"
+               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}.${MINOR}.${PATCH}"
             else
-               TAGS="${{ secrets.DOCKER_IMAGE }}:${VERSION}"
+               TAGS="${{ env.IMAGENAME }}:${VERSION}"
             fi
           elif [[ $GITHUB_REF == refs/heads/* ]]; then
             VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
             if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
-              VERSION=edge
+              VERSION=${{ env.DEFAULT_TAG }}
             fi
-            TAGS="${{ secrets.DOCKER_IMAGE }}:${VERSION}"
+            TAGS="${{ env.IMAGENAME }}:${VERSION}"
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
-            TAGS="${{ secrets.DOCKER_IMAGE }}:pr-${{ github.event.number }}"
+            TAGS="${{ env.IMAGENAME }}:pr-${{ github.event.number }}"
           fi
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-      -
-        name: Generate Build-Args
-        id: build-args
-        run: |
-          # echo ::set-output name=build-arg1::"buildarg1"
-          # echo ::set-output name=build-arg2::"buildarg2"
       -
         name: Hadolint
         uses: brpaz/hadolint-action@v1.3.1
@@ -76,7 +88,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: quay.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
+          username: ${{ env.QUAY_USER }}
           password: ${{ secrets.REGISTRY_TOKEN }}
       -
         name: Build and push
@@ -85,7 +97,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm/v7,linux/i386,linux/arm64
+          platforms: ${{ env.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
@@ -105,6 +117,6 @@ jobs:
         run: |
           for i in $(echo ${{ steps.prep.outputs.tags }} | sed "s/,/ /g")
           do
-              GHTAG=$(echo $i | sed "s/quay.io/docker.io/g" | sed "s/${{ secrets.REGISTRY_USERNAME }}/${{ secrets.DOCKERUSER }}/g")
-              skopeo copy --all --src-creds=${{ secrets.REGISTRY_USERNAME }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ secrets.DOCKERUSER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
+              GHTAG=$(echo $i | sed "s/quay.io/docker.io/g" | sed "s/${{ env.QUAY_USER }}/${{ env.DOCKER_USER }}/g")
+              skopeo copy --all --src-creds=${{ env.QUAY_USER }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ env.DOCKER_USER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
           done
