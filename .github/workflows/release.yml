@@ -69,7 +69,7 @@ jobs:
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
       -
         name: Hadolint
-        uses: brpaz/hadolint-action@v1.3.1
+        uses: brpaz/hadolint-action@v1.5.0
         with: 
           dockerfile: Dockerfile
       -
