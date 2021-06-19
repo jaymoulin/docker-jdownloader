@@ -119,7 +119,7 @@ jobs:
           echo ::set-output name=shortname::$(echo ${{ env.IMAGENAME }} | sed "s/quay.io\///g")
       -
         name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v2.4.2
         with:
           username: ${{ env.DOCKER_USER }}
           password: ${{ secrets.DOCKERPASSWORD }}
