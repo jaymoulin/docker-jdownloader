@@ -7,10 +7,6 @@ ARG TARGETARCH
 ARG TARGETPLATFORM
 ARG NAME
 
-# set labels
-LABEL maintainer="Thomas Deutsch <thomas@tuxpeople.org>"
-LABEL build_version="${NAME} Version:- ${VERSION} Build-date:- ${BUILD_DATE} Arch:- ${TARGETPLATFORM}"
-
 # set env
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
 ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
