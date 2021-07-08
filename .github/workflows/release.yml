@@ -61,7 +61,9 @@ jobs:
                TAGS="${{ env.IMAGENAME }}:${VERSION}"
             fi
           elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            TAGS="${{ env.IMAGENAME }}:${{ env.DEFAULT_TAG }}"
+            TIMESTAMP=$(date +%Y%m%d%H%M%S)  
+            TAGS="${{ env.IMAGENAME }}:${TIMESTAMP}"
+            TAGS="${TAGS},${{ env.IMAGENAME }}:${{ env.DEFAULT_TAG }}"
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
             TAGS="${{ env.IMAGENAME }}:pr-${{ github.event.number }}"
           fi
