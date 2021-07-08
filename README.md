@@ -22,6 +22,7 @@ This image allows you to have JDownloader 2 easily installed and controlled via 
 
 ## Image tags
 - ```latest``` gets automatically built on every push to master and also via a weekly cron job
+- Every build creates a tag containing date and time of the build. ```latest``` always points to the newest build. See [tags](https://hub.docker.com/r/tdeutsch/jdownloader-headless/tags).
 
 ## Usage
 Installation
