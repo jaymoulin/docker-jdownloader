@@ -7,10 +7,10 @@ if [ ! $# -eq 2 ]; then
     exit 1
 fi
 
-if [ ! -f /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json ]; then
-    cp /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+if [ ! -f /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json ]; then
+    cp /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 fi
 
-sed -Ei "s/\"password\" : .+\"(,?)/\"password\" : \"$2\"\1/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
-sed -Ei "s/\"email\" : .+\"(,?)/\"email\" : \"$1\"\1/" /opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+sed -Ei "s/\"password\" : .+\"(,?)/\"password\" : \"$2\"\1/" /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json && \
+sed -Ei "s/\"email\" : .+\"(,?)/\"email\" : \"$1\"\1/" /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 pkill -f "JDownloader"
