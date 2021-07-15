@@ -25,7 +25,7 @@ Here are some examples to get started with the creation of this container.
 
 ### Docker
 ```
-docker run -d --init --restart=always -v </path/to/downloads>:/opt/JDownloader/Downloads -v </path/to/appdata/config>:/opt/JDownloader/cfg --name jdownloader -u $(id -u) -p 3129:3129 -e MYJD_USER=email@email.com -e MYJD_PASSWORD=bar -e MYJD_DEVICE_NAME=goofy jaymoulin/jdownloader
+docker run -d --init --restart=always -v </path/to/downloads>:/opt/JDownloader/Downloads -v </path/to/appdata/config>:/opt/JDownloader/app/cfg --name jdownloader -u $(id -u) -p 3129:3129 -e MYJD_USER=email@email.com -e MYJD_PASSWORD=bar -e MYJD_DEVICE_NAME=goofy jaymoulin/jdownloader
 ```
 ### Docker Compose
 ```yml
@@ -36,9 +36,9 @@ services:
     restart: always
     user: 1001:100
     volumes:
-        - </path/to/appdata/config>:/opt/JDownloader/cfg
+        - </path/to/appdata/config>:/opt/JDownloader/app/cfg
         - </path/to/downloads>:/opt/JDownloader/Downloads
-        - </path/to/appdata/logs>:/opt/JDownloader/logs #optional
+        - </path/to/appdata/logs>:/opt/JDownloader/app/logs #optional
         - /etc/localtime:/etc/localtime:ro #optional
     environment: 
             MYJD_USER: email@email.com #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
@@ -58,8 +58,8 @@ You can set many parameters when you configure this container, but you must spec
 ### Configuration values 
 | Parameter | Function |
 | :----: | --- |
-| `-v /opt/JDownloader/cfg`| Config file folder, saves your configuration on the host |
-| `-v /opt/JDownloader/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
+| `-v /opt/JDownloader/app/cfg`| Config file folder, saves your configuration on the host |
+| `-v /opt/JDownloader/app/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
 | `-v /opt/JDownloader/Downloads` | Downloads folder (where you put your `download` mountpoint) | 
 | `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
 | `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
