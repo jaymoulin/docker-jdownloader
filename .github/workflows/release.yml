@@ -39,6 +39,24 @@ jobs:
         run: |
           # echo ::set-output name=build-arg1::"buildarg1"
           # echo ::set-output name=build-arg2::"buildarg2"
+      - 
+        name: Bump version and push tag if needed
+        id: tag_version
+        if: github.event_name == 'push'
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
+      -
+        name: Create a GitHub release if new version
+        uses: actions/create-release@v1
+        if: ${{ steps.tag_version.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
       -
         name: Prepare
         id: prep
@@ -46,7 +64,30 @@ jobs:
           IMAGENAME=$(echo ${{ github.repository }} | sed 's/${{ github.repository_owner }}\/docker-//g')
           IMAGEPREFIX="ghcr.io/${{ github.repository_owner }}"
           IMAGE="${IMAGEPREFIX}/${IMAGENAME}"
-          TAGS="${IMAGE}:latest"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            VERSION=weekly
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          elif [[ $GITHUB_REF == refs/heads/* ]]; then
+            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+            if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
+              VERSION=devel
+            fi
+          elif [[ $GITHUB_REF == refs/pull/* ]]; then
+            VERSION=pr-${{ github.event.number }}
+          fi
+          if [[ "${{ steps.tag_version.outputs.new_tag }}" != "" ]]; then
+            VERSION=${{ steps.tag_version.outputs.new_tag }}
+          fi
+          TAGS="${IMAGE}:${VERSION}"
+          if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+            MINOR=${VERSION%.*}
+            MAJOR=${MINOR%.*}
+            TAGS="$TAGS,${IMAGE}:${MINOR},${IMAGE}:${MAJOR},${IMAGE}:latest"
+          # elif [ "${{ github.event_name }}" = "push" ]; then
+          #   TAGS="$TAGS,${IMAGE}:sha-${GITHUB_SHA::8}"
+          fi
+          echo ${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=imagename::${IMAGENAME}
           echo ::set-output name=version::${VERSION}

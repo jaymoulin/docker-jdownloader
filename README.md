@@ -22,7 +22,10 @@ This image allows you to have JDownloader 2 easily installed and controlled via 
   ```amd64```, ```armv7```, ```i386``` and ```arm64```
 
 ## Image tags
-- ```latest``` gets automatically built on every push to master and also via a weekly cron job
+- ```latest``` always refers to the latest tagged release.
+- There are tags for major, minor and patchreleases (eg. ```1.0.0```, ```1.0```, ```1``` ) note that this is the version of the image, not from jdownloader
+- ```weekly``` gets automatically built a weekly cron job
+- ```devel``` gets automatically built on every push and represents the latest version of the repo
 
 ## Usage
 Installation
