@@ -21,7 +21,7 @@ jobs:
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
       - name: Delete image
-        uses: bots-house/ghcr-delete-image-action@v1.0.0
+        uses: bots-house/ghcr-delete-image-action@v1.0.1
         with:
           # NOTE: at now only orgs is supported
           owner: ${{ github.repository_owner }}
