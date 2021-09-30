@@ -11,6 +11,8 @@ on:
     branches:
       - 'master'
       - 'main'
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
 
 env:
   PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"     # Build for which platforms
@@ -106,7 +108,6 @@ jobs:
       -
         name: Login to GHCR
         uses: docker/login-action@v1
-        if: github.event_name != 'pull_request'
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -119,7 +120,6 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: ${{ env.PLATFORMS }}
-          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
             ${{ steps.build-args.outputs.build-arg1 }}
@@ -136,6 +136,7 @@ jobs:
       -
         name: Copy to Docker Hub
         id: copy_images
+        if: github.event_name != 'pull_request'
         run: |
           for i in $(echo ${{ steps.prep.outputs.tags }} | sed "s/,/ /g")
           do
@@ -145,6 +146,7 @@ jobs:
       -
         name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2.4.3
+        if: github.event_name != 'pull_request'
         with:
           username: ${{ env.DOCKER_USER }}
           password: ${{ secrets.DOCKERPASSWORD }}
