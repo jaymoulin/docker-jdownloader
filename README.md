@@ -5,6 +5,7 @@
 ![Docker Stars Badge](https://img.shields.io/docker/stars/tdeutsch/jdownloader-headless)
 ![Docker Size Badge](https://img.shields.io/docker/image-size/tdeutsch/jdownloader-headless)
 
+    Caution: No more quay.io!
 ## Quick reference
 
 Originally made by Jay Moulin. I made some improvements to it as it didn't work for me in Kubernetes.
@@ -22,7 +23,6 @@ This image allows you to have JDownloader 2 easily installed and controlled via 
 
 ## Image tags
 - ```latest``` gets automatically built on every push to master and also via a weekly cron job
-- Every build creates a tag containing date and time of the build. ```latest``` always points to the newest build. See [tags](https://hub.docker.com/r/tdeutsch/jdownloader-headless/tags).
 
 ## Usage
 Installation
