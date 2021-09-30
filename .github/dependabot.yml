@@ -2,11 +2,12 @@ version: 2
 updates:
 
 # Maintain dependencies for Docker
-- package-ecosystem: docker
+- package-ecosystem: "docker"
   directory: "/"
   schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+    interval: "daily"
+  commit-message:
+    prefix: "feat: "
   assignees:
     - "tuxpeople"
 
@@ -15,6 +16,8 @@ updates:
   directory: "/"
   schedule:
     interval: "daily"
+  commit-message:
+    prefix: "chore(ci): "
   open-pull-requests-limit: 10
   assignees:
     - "tuxpeople"
