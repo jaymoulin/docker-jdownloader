@@ -120,6 +120,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: ${{ env.PLATFORMS }}
+          push: true
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
             ${{ steps.build-args.outputs.build-arg1 }}
