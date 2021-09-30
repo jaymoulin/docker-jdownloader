@@ -1,4 +1,4 @@
-FROM openjdk:jre-alpine
+FROM openjdk:18-jdk-alpine3.13
 
 # set args
 ARG BUILD_DATE
