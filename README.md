@@ -5,6 +5,8 @@
 ![Docker Stars Badge](https://img.shields.io/docker/stars/tdeutsch/jdownloader-headless)
 ![Docker Size Badge](https://img.shields.io/docker/image-size/tdeutsch/jdownloader-headless)
 
+<img src="./images/warning-own-risk.svg">
+
 ## Quick reference
 
 Originally made by Jay Moulin. I made some improvements to it as it didn't work for me in Kubernetes.
