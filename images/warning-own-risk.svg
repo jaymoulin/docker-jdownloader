@@ -37,8 +37,7 @@
                                 d="M15,54.98a46.641,46.641,0,0,1,34,0V21a17,17,0,0,0-34,0ZM40,42H24a1,1,0,0,1,0-2H40a1,1,0,0,1,0,2ZM36,19a1,1,0,0,1,1-1h3a4,4,0,0,1,0,8H38v5a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V31a1,1,0,0,1-2,0ZM20,19a1,1,0,0,1,1-1h3a4,4,0,0,1,.813,7.916l3.019,4.529a1,1,0,0,1-1.664,1.11L22.465,26H22v5a1,1,0,0,1-2,0Zm1,17H43a1,1,0,0,1,0,2H21a1,1,0,0,1,0-2Z" />
                         </g>
                     </svg>
-                    <span class="message">-- WARNING --- 
-I made this for my own use. Feel free to use it at your own risk, but I do not promise to keep this up and running. Also, I may change things which breaks your use case. Feel free to ask questions, but support is best effort and cannot be guaranteed.</span>
+                    <span class="message">Warning: I made this for my own use. Feel free to use it at your own risk, but I do not promise to keep this up and running. Also, I may change things which breaks your use case. Feel free to ask questions, but support is best effort and cannot be guaranteed.</span>
                 </div>
             </div>
         </div>
