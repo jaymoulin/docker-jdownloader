@@ -1,4 +1,4 @@
-FROM openjdk:jre-alpine
+FROM alpine:3.14
 
 # set args
 ARG BUILD_DATE
@@ -6,10 +6,6 @@ ARG VERSION
 ARG TARGETARCH
 ARG TARGETPLATFORM
 ARG NAME
-
-# set labels
-LABEL maintainer="Thomas Deutsch <thomas@tuxpeople.org>"
-LABEL build_version="${NAME} Version:- ${VERSION} Build-date:- ${BUILD_DATE} Arch:- ${TARGETPLATFORM}"
 
 # set env
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
@@ -31,11 +27,11 @@ ENV LC_ALL="C.UTF-8"
 
 # Upgrade and install dependencies
 # hadolint ignore=DL3018,DL3019
-RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --no-cache --upgrade libstdc++ ffmpeg wget jq moreutils@testing && \
+RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk add --no-cache --upgrade openjdk8-jre ca-certificates libstdc++ ffmpeg wget jq moreutils@community && \
     mkdir -p /init && \
     mkdir -p /opt/JDownloader && \
-    wget -O /init/JDownloader.jar --user-agent="Github Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
+    wget -q -O /init/JDownloader.jar --user-agent="Github Docker Image Build (https://github.com/tuxpeople)" "http://installer.jdownloader.org/JDownloader.jar" && \
     chmod +x /init/JDownloader.jar && \
     chmod -R 777 /opt/JDownloader* /init
 

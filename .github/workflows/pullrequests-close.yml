@@ -1,0 +1,31 @@
+name: '[RM] Preview'
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  purge-image:
+    name: Delete image from ghcr.io
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        id: prep
+        run: |
+          IMAGENAME=$(echo ${{ github.repository }} | sed 's/${{ github.repository_owner }}\/docker-//g')
+          IMAGEPREFIX="ghcr.io/${{ github.repository_owner }}"
+          IMAGE="${IMAGEPREFIX}/${IMAGENAME}"
+          echo ${VERSION}
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=imagename::${IMAGENAME}
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      - name: Delete image
+        uses: bots-house/ghcr-delete-image-action@v1.0.1
+        with:
+          # NOTE: at now only orgs is supported
+          owner: ${{ github.repository_owner }}
+          name: ${{ steps.prep.outputs.imagename }}
+          # NOTE: using Personal Access Token
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: pr-${{github.event.pull_request.number}}

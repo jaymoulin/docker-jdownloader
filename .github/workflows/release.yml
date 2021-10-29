@@ -1,23 +1,22 @@
-name: ci
+name: "Build & Release"
 
 # This worflow needs those secrets:
 #
-# REGISTRY_TOKEN = Quay.io token
 # DOCKERPASSWORD = Docker Hub token
 
 on:
-  push:
-    branches: [master, main]
-    tags: 'v*.*.*'
   schedule:
-    - cron: "0 13 * * 1"
+    - cron: '3 4 * * 1'
+  push:
+    branches:
+      - 'master'
+      - 'main'
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
 
 env:
-  PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"       # Build for which platforms
-  IMAGENAME: "quay.io/tdeutsch/jdownloader-headless"                 # Name of the image
-  DEFAULT_TAG: "latest"                                              # Which tag is beeing used if we are building for master/main branch 
-  QUAY_USER: "tdeutsch"                                              # Which user to use to login to quay.io
-  DOCKER_USER: "tdeutsch"                                            # Which user to use to login to DockerHub
+  PLATFORMS: "linux/amd64,linux/arm/v7,linux/i386,linux/arm64"     # Build for which platforms
+  DOCKER_USER: "tdeutsch"                                          # Which user to use to login to DockerHub
 
 #####
 # To rebuild someone else's repo, do this:
@@ -34,94 +33,123 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout
+        uses: actions/checkout@v2.3.5
+      -
         name: Generate Build-Args
         id: build-args
         run: |
           # echo ::set-output name=build-arg1::"buildarg1"
           # echo ::set-output name=build-arg2::"buildarg2"
+      - 
+        name: Bump version and push tag if needed
+        id: tag_version
+        if: github.event_name == 'push'
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
       -
-        name: Checkout
-        uses: actions/checkout@v2
+        name: Create a GitHub release if new version
+        uses: actions/create-release@v1
+        if: ${{ steps.tag_version.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
       -
         name: Prepare
         id: prep
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
+          IMAGENAME=$(echo ${{ github.repository }} | sed 's/${{ github.repository_owner }}\/docker-//g')
+          IMAGEPREFIX="ghcr.io/${{ github.repository_owner }}"
+          IMAGE="${IMAGEPREFIX}/${IMAGENAME}"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            VERSION=weekly
+          elif [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
-            if [[ $VERSION =~ ^v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$ ]]; then
-               MAJOR="${BASH_REMATCH[1]}"
-               MINOR="${BASH_REMATCH[2]}"
-               PATCH="${BASH_REMATCH[3]}"
-
-               TAGS="${{ env.IMAGENAME }}:latest"
-               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}"
-               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}.${MINOR}"
-               TAGS="${TAGS},${{ env.IMAGENAME }}:${MAJOR}.${MINOR}.${PATCH}"
-            else
-               TAGS="${{ env.IMAGENAME }}:${VERSION}"
-            fi
           elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            TAGS="${{ env.IMAGENAME }}:${{ env.DEFAULT_TAG }}"
+            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+            if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
+              VERSION=devel
+            fi
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
-            TAGS="${{ env.IMAGENAME }}:pr-${{ github.event.number }}"
+            VERSION=pr-${{ github.event.number }}
           fi
+          if [[ "${{ steps.tag_version.outputs.new_tag }}" != "" ]]; then
+            VERSION=${{ steps.tag_version.outputs.new_tag }}
+          fi
+          TAGS="${IMAGE}:${VERSION}"
+          if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+            MINOR=${VERSION%.*}
+            MAJOR=${MINOR%.*}
+            TAGS="$TAGS,${IMAGE}:${MINOR},${IMAGE}:${MAJOR},${IMAGE}:latest"
+          # elif [ "${{ github.event_name }}" = "push" ]; then
+          #   TAGS="$TAGS,${IMAGE}:sha-${GITHUB_SHA::8}"
+          fi
+          echo ${VERSION}
           echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=imagename::${IMAGENAME}
+          echo ::set-output name=version::${VERSION}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
       -
         name: Hadolint
-        uses: brpaz/hadolint-action@v1.3.1
+        uses: brpaz/hadolint-action@v1.5.0
         with: 
           dockerfile: Dockerfile
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v1.2.0
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       -
-        name: Login to Quay.io
-        if: github.event_name != 'pull_request'
+        name: Login to GHCR
         uses: docker/login-action@v1
         with:
-          registry: quay.io
-          username: ${{ env.QUAY_USER }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v2.7.0
         with:
           context: .
           file: ./Dockerfile
           platforms: ${{ env.PLATFORMS }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
             ${{ steps.build-args.outputs.build-arg1 }}
             ${{ steps.build-args.outputs.build-arg2 }}
           labels: |
-            org.opencontainers.image.title=${{ github.event.repository.name }}
+            org.opencontainers.image.title=${{ steps.prep.outputs.imagename }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
             org.opencontainers.image.url=${{ github.event.repository.html_url }}
             org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
       -
         name: Copy to Docker Hub
         id: copy_images
+        if: github.event_name != 'pull_request'
         run: |
           for i in $(echo ${{ steps.prep.outputs.tags }} | sed "s/,/ /g")
           do
-              GHTAG=$(echo $i | sed "s/quay.io/docker.io/g" | sed "s/${{ env.QUAY_USER }}/${{ env.DOCKER_USER }}/g")
-              skopeo copy --all --src-creds=${{ env.QUAY_USER }}:${{ secrets.REGISTRY_TOKEN }} --dest-creds=${{ env.DOCKER_USER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
+              GHTAG=$(echo $i | sed "s/ghcr.io/docker.io/g" | sed "s/${{ github.repository_owner }}/${{ env.DOCKER_USER }}/g")
+              skopeo copy --all --src-creds=${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} --dest-creds=${{ env.DOCKER_USER }}:${{ secrets.DOCKERPASSWORD }} docker://${i} docker://${GHTAG}
           done
-          echo ::set-output name=shortname::$(echo ${{ env.IMAGENAME }} | sed "s/quay.io\///g")
       -
         name: Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v2.4.3
+        if: github.event_name != 'pull_request'
         with:
           username: ${{ env.DOCKER_USER }}
           password: ${{ secrets.DOCKERPASSWORD }}
-          repository: ${{ steps.copy_images.outputs.shortname }}
-
+          repository: "${{ env.DOCKER_USER }}/${{ steps.prep.outputs.imagename }}"
+          short-description: ${{ github.event.repository.description }}

@@ -23,7 +23,10 @@ This image allows you to have JDownloader 2 easily installed and controlled via 
   ```amd64```, ```armv7```, ```i386``` and ```arm64```
 
 ## Image tags
-- ```latest``` gets automatically built on every push to master and also via a weekly cron job
+- ```latest``` always refers to the latest tagged release.
+- There are tags for major, minor and patchreleases (eg. ```1.0.0```, ```1.0```, ```1``` ) note that this is the version of the image, not from jdownloader
+- ```weekly``` gets automatically built a weekly cron job
+- ```devel``` gets automatically built on every push and represents the latest version of the repo
 
 ## Usage
 Installation
@@ -79,7 +82,7 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
-| `UMASK=0002` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
+| `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
 
 #### Identify
 If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running (Recommended method)
