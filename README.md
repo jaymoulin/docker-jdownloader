@@ -7,6 +7,8 @@
 
 <img src="./images/warning-own-risk.svg">
 
+<img src="./images/error-quayio.svg">
+
 ## Quick reference
 
 Originally made by Jay Moulin. I made some improvements to it as it didn't work for me in Kubernetes.
