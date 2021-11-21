@@ -1,9 +1,5 @@
 #!/bin/sh
 
-trap 'kill -TERM $PID' TERM INT
-rm -f /opt/JDownloader/JDownloader.jar.*
-rm -f /opt/JDownloader/JDownloader.pid
-
 SETTINGSFILE="/opt/JDownloader/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json"
 
 # Login user with env credentials - Please prefer command way
@@ -26,7 +22,11 @@ ls -latr /opt/JDownloader/
 
 # Check if volume needs init
 if [ ! -f /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist ]; then
-    cp -r /init/* /opt/JDownloader/
+    cp -r /tmp/init/* /opt/JDownloader/
+fi
+
+if [ ! -f ${SETTINGSFILE} ]; then
+    cp /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist ${SETTINGSFILE}
 fi
 
 ls -latr /opt/JDownloader/
@@ -53,10 +53,3 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
     echo "Defining umask to $UMASK"
     umask "$UMASK"
 fi
-
-java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar -norestart &
-PID=$!
-wait $PID
-wait $PID
-
-EXIT_STATUS=$?

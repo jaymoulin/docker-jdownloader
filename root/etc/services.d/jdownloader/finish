@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -S0
+
+rm -f /opt/JDownloader/JDownloader.jar.*
+rm -f /opt/JDownloader/JDownloader.pid
