@@ -49,6 +49,56 @@ services:
         - 3129:3129 
 ```
 
+### Kubernetes
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jdownloader
+  labels:
+    app: jdownloader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jdownloader
+  template:
+    metadata:
+      labels:
+        app: jdownloader
+    spec:
+      containers:
+        - name: jdownloader
+          image: jaymoulin/jdownloader
+          env:
+            - name: MYJD_USER
+              value: "email@email.com"
+            - name: MYJD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my_jd_secret
+                  key: password
+          volumeMounts:
+            - mountPath: /opt/JDownloader/app
+              name: exec
+            - mountPath: /opt/JDownloader/app/cfg
+              name: cfg
+            - mountPath: /opt/JDownloader/Downloads
+              name: downloads
+      volumes:
+        - name: exec
+          emptyDir: {}
+        - name: cfg
+          hostPath:
+            path: /path/to/jd/cfg
+            type: Directory
+        - name: downloads
+          hostPath:
+            path: /path/to/downloads
+            type: Directory
+```
+
 *Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
 
 Configuration
