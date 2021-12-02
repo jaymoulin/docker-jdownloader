@@ -6,7 +6,7 @@ COPY qemu-aarch64-static /usr/bin/
 FROM builder
 
 ARG ARCH=armel
-ARG VERSION="2.0.0"
+ARG VERSION="2.0.1"
 LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 
@@ -15,7 +15,8 @@ ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN apt-get update && \
+RUN mkdir -p /opt/JDownloader/app/ && \
+    apt-get update && \
     apt-get install openjdk-8-jre ffmpeg wget -y && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod 777 /opt/JDownloader/ -R && \

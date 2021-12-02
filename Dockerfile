@@ -6,7 +6,7 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="2.0.0"
+ARG VERSION="2.0.1"
 LABEL maintainer="Jay MOULIN <https://jaymoulin.me/me/docker-jdownloader> <https://twitter.com/MoulinJay>"
 LABEL version="${VERSION}-${ARCH}"
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
@@ -20,7 +20,8 @@ ENV UMASK=''
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN apk add --update libstdc++ ffmpeg wget && \
+RUN mkdir -p /opt/JDownloader/app && \
+    apk add --update libstdc++ ffmpeg wget && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod 777 /opt/JDownloader/ -R && \
     apk del wget --purge && \
