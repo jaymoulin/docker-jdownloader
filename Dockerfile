@@ -20,11 +20,10 @@ ENV UMASK=''
 COPY ./${ARCH}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN mkdir -p /opt/JDownloader/ && \
-    apk add --update libstdc++ ffmpeg wget && \
+RUN apk add --update libstdc++ ffmpeg wget && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
-    chmod +x /opt/JDownloader/JDownloader.jar && \
     chmod 777 /opt/JDownloader/ -R && \
+    apk del wget --purge && \
     rm /usr/bin/qemu-*-static
 
 COPY daemon.sh /opt/JDownloader/
