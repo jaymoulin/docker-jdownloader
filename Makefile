@@ -24,7 +24,8 @@ build: qemu-arm-static qemu-aarch64-static
 			image=bellsoft\\/liberica-openjdk-alpine:10.0.2-armv7l; \
 		else \
 			archi=arm64; \
-			image=bellsoft\\/liberica-openjdk-alpine:10.0.2-aarch64; \
+			image=bellsoft\\/liberica-openjdk-debian:11.0.12-aarch64; \
+			FILE=debian.Dockerfile; \
 		fi; \
 		cat $$FILE | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
 		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\

@@ -17,7 +17,8 @@ ENV XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads
 # which is compiled against libstdc++
 RUN mkdir -p /opt/JDownloader/app/ && \
     apt-get update && \
-    apt-get install openjdk-8-jre ffmpeg wget -y && \
+    apt-get install ffmpeg wget -y && \
+    (java -version || apt-get install openjdk-8-jre) && \
     wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
     chmod 777 /opt/JDownloader/ -R && \
     apt-get autoremove -y wget && \
