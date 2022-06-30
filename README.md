@@ -39,6 +39,7 @@ services:
         - </path/to/appdata/config>:/opt/JDownloader/app/cfg
         - </path/to/downloads>:/opt/JDownloader/Downloads
         - </path/to/appdata/logs>:/opt/JDownloader/app/logs #optional
+        - </path/to/appdata/extensions>:/opt/JDownloader/app/extensions #optional
         - /etc/localtime:/etc/localtime:ro #optional
     environment: 
             MYJD_USER: email@email.com #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
@@ -86,6 +87,8 @@ spec:
               name: cfg
             - mountPath: /opt/JDownloader/Downloads
               name: downloads
+            - mountPath: /opt/JDownloader/app/extensions
+              name: extensions
       volumes:
         - name: exec
           emptyDir: {}
@@ -96,6 +99,10 @@ spec:
         - name: downloads
           hostPath:
             path: /path/to/downloads
+            type: Directory
+        - name: extensions
+          hostPath:
+            path: /path/to/extensions
             type: Directory
 ```
 
@@ -110,6 +117,7 @@ You can set many parameters when you configure this container, but you must spec
 | :----: | --- |
 | `-v /opt/JDownloader/app/cfg`| Config file folder, saves your configuration on the host |
 | `-v /opt/JDownloader/app/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
+| `-v /opt/JDownloader/app/extensions` | Extensions folder, specify it only if you wan to install extensions and keep it on the host |
 | `-v /opt/JDownloader/Downloads` | Downloads folder (where you put your `download` mountpoint) | 
 | `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
 | `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
