@@ -4,8 +4,10 @@ trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/app/JDownloader.jar.*
 rm -f /opt/JDownloader/app/JDownloader.pid
 
-# Login user with env credentials - Please prefer command way
-if [ -n "$MYJD_USER" ] && [ -n "$MYJD_PASSWORD" ]; then
+# Login user with docker secret or env credentials - Please prefer command way
+if [ -n "$FILE_MYJD_USER" ] && [ -n "$FILE_MYJD_PASSWORD" ]; then
+    configure $(cat "/run/secrets/$FILE_MYJD_USER") $(cat "/run/secrets/$FILE_MYJD_PASSWORD")
+elif [ -n "$MYJD_USER" ] && [ -n "$MYJD_PASSWORD" ]; then
     configure "$MYJD_USER" "$MYJD_PASSWORD"
 fi
 
