@@ -42,12 +42,23 @@ services:
         - </path/to/appdata/extensions>:/opt/JDownloader/app/extensions #optional
         - /etc/localtime:/etc/localtime:ro #optional
     environment: 
+            FILE_MYJD_USER: myjd-user #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+            FILE_MYJD_PASSWORD: myjd-password #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_USER: email@email.com #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_PASSWORD: bar #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_DEVICE_NAME: goofy #optional
             XDG_DOWNLOAD_DIR: /opt/JDownloader/Downloads #optional
     ports:
         - 3129:3129 
+    secrets:
+        - myjd-user #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+        - myjd-password #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+
+secrets:
+  myjd-user: #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+    file: ~/jdownloader/secrets/myjd_user.txt
+  myjd-password: #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
+    file: ~/jdownloader/secrets/myjd_password.txt
 ```
 
 ### Kubernetes
@@ -125,6 +136,8 @@ You can set many parameters when you configure this container, but you must spec
 ### Environment Variables
 | Parameter | Function |
 | :----: | --- |
+| `FILE_MYJD_USER=myjd-user` | The docker secret of your MyJDownloader user |
+| `FILE_MYJD_PASSWORD=myjd-password` | The docker secret of your MyJDownloader password |
 | `MYJD_USER=email@email.com` | Your MyJDownloader user |
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
@@ -132,7 +145,10 @@ You can set many parameters when you configure this container, but you must spec
 | `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
 
 #### Identify
-If haven't set MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running (Recommended method)
+There are 3 possibilities to give login password for MyJDownloader:
+- Declare FILE_MYJD_USER and FILE_MY_JD_PASSWORD which is used with the principle of docker secret : https://docs.docker.com/engine/swarm/secrets/#use-secrets-in-compose. This is the most docker way.
+- Declare MYJD_USER and MYJD_PASSWORD values which only create environment variable
+- If haven't set FILE_MYJD_USER, FILE_MY_JD_PASSWORD, MYJD_USER and MYJD_PASSWORD values, you can still configure an account by running (Recommended method because it is the most secure but not fully automatic in the docker-compose.)
 
 ```
 docker exec jdownloader configure email@email.com password
