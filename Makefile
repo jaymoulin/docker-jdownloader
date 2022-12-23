@@ -40,5 +40,5 @@ publish:
 	cat manifest.yaml | sed "s/jaymoulin/ghcr.io\/jaymoulin/g" > manifest2.yaml
 	mv manifest2.yaml manifest.yaml
 	manifest-tool push from-spec manifest.yaml
-latest: build
+latest:
 	FULLVERSION=latest VERSION=${VERSION} make publish
