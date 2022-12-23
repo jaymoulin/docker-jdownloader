@@ -21,7 +21,7 @@ This image allows you to have JDownloader 2 easily installed and controlled via 
 Installation
 ---
 
-Here are some examples to get started with the creation of this container.
+Here are some examples to get started with the creation of this container. Please note that this package is also hosted on Github Container Registry, just add `ghcr.io/` before the image name (`docker pull ghcr.io/jaymoulin/jdownloader` instead of `jaymoulin/jdownloader`)
 
 ### Docker
 ```

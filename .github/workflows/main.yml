@@ -19,6 +19,7 @@ jobs:
           docker run --rm --privileged multiarch/qemu-user-static:register
           sudo apt install -y qemu qemu-user-static qemu-user binfmt-support
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_LOGIN }}" --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
       - name: Build image
         run: make build
       - name: Publish image

@@ -28,12 +28,16 @@ build: qemu-arm-static qemu-aarch64-static
 			FILE=debian.Dockerfile; \
 		fi; \
 		cat $$FILE | sed "s/FROM openjdk:jre-alpine/FROM $$image/g" > .Dockerfile; \
-		docker build -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
+		docker build -t ghcr.io/jaymoulin/jdownloader:${VERSION}-$(arch) -t jaymoulin/jdownloader:${VERSION}-$(arch) -f .Dockerfile --build-arg ARCH=$${archi} ${CACHE} --build-arg VERSION=${VERSION} .;\
 	)
 publish:
 	docker push jaymoulin/jdownloader -a
+	docker push ghcr.io/jaymoulin/jdownloader -a
 	cat manifest.yml | sed "s/\$$VERSION/${VERSION}/g" > manifest.yaml
 	cat manifest.yaml | sed "s/\$$FULLVERSION/${FULLVERSION}/g" > manifest2.yaml
+	mv manifest2.yaml manifest.yaml
+	manifest-tool push from-spec manifest.yaml
+	cat manifest.yaml | sed "s/jaymoulin/ghcr.io\/jaymoulin/g" > manifest2.yaml
 	mv manifest2.yaml manifest.yaml
 	manifest-tool push from-spec manifest.yaml
 latest: build
