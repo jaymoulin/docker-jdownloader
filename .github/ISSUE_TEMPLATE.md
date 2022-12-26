@@ -35,7 +35,8 @@ If you find this useful, please consider starring the repo and/or donating.
 Here are some platform where you can donate
 https://www.paypal.me/jaymoulin
 https://www.buymeacoffee.com/jaymoulin
-https://patreon.com/jaymoulin.
+https://ko-fi.com/jaymoulin
+https://patreon.com/jaymoulin
 
 People showing interest attract more attention ;)
 -->
