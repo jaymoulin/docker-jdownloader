@@ -6,7 +6,7 @@ COPY qemu-arm-static /usr/bin/
 FROM builder
 
 ARG ARCH=armhf
-ARG VERSION="2.1.1"
+ARG VERSION="2.1.2"
 LABEL maintainer="Jay MOULIN <https://brands.jaymoulin.me/me/docker-jdownloader>"
 LABEL version="${VERSION}-${ARCH}"
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
