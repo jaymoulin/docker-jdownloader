@@ -13,7 +13,7 @@ fi
 
 # Defining device name to jdownloader interface - please prefer this method than changing on MyJDownloader to keep correct binding
 if [ -n "$MYJD_DEVICE_NAME" ]; then
-    sed -Ei "s/\"devicename\" : .+\"(,?)/\"devicename\" : \"$MYJD_DEVICE_NAME\"\1/" /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
+    sed -Ei "s/\"devicename\":\"[^\"]*\"/\"devicename\":\"$MYJD_DEVICE_NAME\"/" /opt/JDownloader/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json
 fi
 
 # Debugging helper - if the container crashes, create a file called "jdownloader-block.txt" in the download folder

@@ -1,6 +1,1 @@
-{ 
-  "autoconnectenabledv2" : true,
-  "password" : "",
-  "email" : "",
-  "devicename" : ""
-}
+{"autoconnectenabledv2":true,"password":"","email":"","devicename":""}
