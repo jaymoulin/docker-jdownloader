@@ -11,16 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Installing dependencies
         run: |
           sudo apt update && sudo apt install make -y
-          git clone https://github.com/estesp/manifest-tool && cd manifest-tool && git checkout v0.9.0 && sudo make && sudo make install && cd .. && rm -Rf manifest-tool
-          docker run --rm --privileged multiarch/qemu-user-static:register
-          sudo apt install -y qemu qemu-user-static qemu-user binfmt-support
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_LOGIN }}" --password-stdin
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
       - name: Build image
         run: make build
       - name: Publish image
-        run: make publish latest
+        run: make publish

@@ -1,3 +1,9 @@
+> [!CAUTION]
+> As-of 2021, this product does not have a free support team anymore. If you want this product to be maintained, please support my work.
+ 
+> [!NOTE]
+> (This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many  desirable features yet to be added.)
+
 ![logo](logo.png "logo")
 
 JDownloader 2 - Docker Image
@@ -10,13 +16,10 @@ JDownloader 2 - Docker Image
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png "Buy me a coffee")](https://www.buymeacoffee.com/jaymoulin)
 [![Buy me a coffee](https://ko-fi.com/img/githubbutton_sm.svg "Buy me a coffee")](https://www.ko-fi.com/jaymoulin)
 
-DISCLAIMER: As-of 2021, this product does not have a free support team anymore. If you want this product to be maintained, please support on Patreon.
-
-(This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance, support and stability there are many desirable features yet to be added.)
-
 # Headline
 
-This image allows you to have JDownloader 2 easily installed and controlled via [MyJDownloader](https://my.jdownloader.org/), thanks to Docker. No cluncky and rusty VNC sessions here!
+This image allows you to have JDownloader 2 easily installed and controlled via [MyJDownloader](https://my.jdownloader.org/), thanks to Docker. 
+No cluncky and rusty VNC sessions here! No graphical interface - No problem!
 
 Installation
 ---
@@ -117,7 +120,9 @@ spec:
             type: Directory
 ```
 
-*Note for RPI Zero* : specify that you want the arm32v6 image (e.g. jaymoulin/jdownloader:0.7.0-arm32v6) because rpi zero identify itself as armhf which is wrong.
+> [!CAUTION]
+> *Note for RPI Zero*
+> You may need to specify that you want the arm32v6 image (e.g. `docker run -d --platform=linux/arm/v6 jaymoulin/jdownloader`) because rpi zero identifies itself as armhf which is incorrect (https://github.com/moby/moby/issues/41017) (https://github.com/moby/moby/issues/34875).
 
 Configuration
 ---
@@ -191,13 +196,4 @@ To get Direct Connection when using a bridged newtwork, please follow these step
 
 You can put a file called `jdownloader-block.txt` file in your Download folder to pause the container start.
 This will allow to connect to the container with a shell to debug. (`docker exec -it jdownloader sh`) 
-
-### Install Docker
-
-If you don't have Docker installed yet, you can do it easily in one line using this command
- 
-```
-curl -sSL "https://gist.githubusercontent.com/jaymoulin/e749a189511cd965f45919f2f99e45f3/raw/0e650b38fde684c4ac534b254099d6d5543375f1/ARM%2520(Raspberry%2520PI)%2520Docker%2520Install" | sudo sh && sudo usermod -aG docker $USER
-```
-
 
