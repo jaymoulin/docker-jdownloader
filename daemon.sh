@@ -51,7 +51,10 @@ fi
 
 java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
 PID=$!
-wait $PID
-wait $PID
-
+while [ "$PID" ]
+do
+    wait $PID
+    PID=`pgrep java`
+done
+wait $PID # don't alter exit status
 EXIT_STATUS=$?
