@@ -40,7 +40,7 @@ RUN if [ "" = "$ISDEB" ]; then apk add --update libstdc++ ffmpeg wget procps && 
      apk del wget --purge; \
      else apt-get update && \
      apt-get install ffmpeg wget procps -y && \
-     (java -version || apt-get install openjdk-8-jre) && \
+     (java -version || apt-get install openjdk-8-jdk) && \
      wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
      chmod 777 /opt/JDownloader/ -R && \
      apt-get autoremove -y wget; fi
