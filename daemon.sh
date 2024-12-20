@@ -29,6 +29,7 @@ fi
 
 # Copy if no JDownloader exists
 if [ ! -f /opt/JDownloader/app/JDownloader.jar ]; then
+    rm /opt/JDownloader/app/Core.jar
     cp /opt/JDownloader/JDownloader.jar /opt/JDownloader/app/
 fi
 
@@ -36,10 +37,12 @@ fi
 jar tvf /opt/JDownloader/app/JDownloader.jar > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     rm /opt/JDownloader/app/JDownloader.jar
+    rm /opt/JDownloader/app/Core.jar
 fi
 
 # Check if JDownloader.jar exists, or if there is an interrupted update
 if [ ! -f /opt/JDownloader/app/JDownloader.jar ] && [ -f /opt/JDownloader/app/tmp/update/self/JDU/JDownloader.jar ]; then
+    rm /opt/JDownloader/app/Core.jar
     cp /opt/JDownloader/app/tmp/update/self/JDU/JDownloader.jar /opt/JDownloader/app/
 fi
 
