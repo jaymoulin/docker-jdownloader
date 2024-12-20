@@ -1,8 +1,8 @@
 #!/bin/sh
 
 trap 'kill -TERM $PID' TERM INT
-rm -f /opt/JDownloader/app/JDownloader.jar.*
-rm -f /opt/JDownloader/app/JDownloader.pid
+rm -f /opt/JDownloader/app/JDownloader.jar.* 2> /dev/null
+rm -f /opt/JDownloader/app/JDownloader.pid 2> /dev/null
 
 # Login user with docker secret or env credentials - Please prefer command way
 if [ -n "$FILE_MYJD_USER" ] && [ -n "$FILE_MYJD_PASSWORD" ]; then
@@ -29,20 +29,20 @@ fi
 
 # Copy if no JDownloader exists
 if [ ! -f /opt/JDownloader/app/JDownloader.jar ]; then
-    rm /opt/JDownloader/app/Core.jar
+    rm /opt/JDownloader/app/Core.jar 2> /dev/null
     cp /opt/JDownloader/JDownloader.jar /opt/JDownloader/app/
 fi
 
 # Check JDownloader.jar integrity and removes it in case it's not
 jar tvf /opt/JDownloader/app/JDownloader.jar > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    rm /opt/JDownloader/app/JDownloader.jar
-    rm /opt/JDownloader/app/Core.jar
+    rm /opt/JDownloader/app/JDownloader.jar 2> /dev/null
+    rm /opt/JDownloader/app/Core.jar > /dev/null
 fi
 
 # Check if JDownloader.jar exists, or if there is an interrupted update
 if [ ! -f /opt/JDownloader/app/JDownloader.jar ] && [ -f /opt/JDownloader/app/tmp/update/self/JDU/JDownloader.jar ]; then
-    rm /opt/JDownloader/app/Core.jar
+    rm /opt/JDownloader/app/Core.jar 2> /dev/null
     cp /opt/JDownloader/app/tmp/update/self/JDU/JDownloader.jar /opt/JDownloader/app/
 fi
 
