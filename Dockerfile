@@ -1,7 +1,7 @@
 FROM bellsoft/liberica-openjdk-alpine:10.0.2-x86_64 AS base-amd64-v1
 FROM bellsoft/liberica-openjdk-alpine:10.0.2-armv7l AS base-arm-v7
 
-FROM bellsoft/liberica-openjdk-debian:11.0.20-aarch64 AS base-arm64-v1
+FROM bellsoft/liberica-openjdk-debian:11.0.25-aarch64 AS base-arm64-v1
 ENV ISDEB=1
 FROM balenalib/raspberry-pi AS base-arm-v6
 ENV ISDEB=1
