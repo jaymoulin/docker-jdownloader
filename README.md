@@ -51,6 +51,8 @@ services:
             MYJD_PASSWORD: bar #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_DEVICE_NAME: goofy #optional
             XDG_DOWNLOAD_DIR: /opt/JDownloader/Downloads #optional
+            PUID: 1000 #optional user id - not recommanded
+            GID: 1000 #optional group id - not recommanded
     ports:
         - 3129:3129 
     secrets:
@@ -135,7 +137,7 @@ You can set many parameters when you configure this container, but you must spec
 | `-v /opt/JDownloader/app/logs` | Container logs folder, specify it only if you wan to keep logs on the host |
 | `-v /opt/JDownloader/app/extensions` | Extensions folder, specify it only if you wan to install extensions and keep it on the host |
 | `-v /opt/JDownloader/Downloads` | Downloads folder (where you put your `download` mountpoint) | 
-| `-u <UID>:<GID>` | Add user identifiers to run the container with user priviledges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options)
+| `-u <UID>:<GID>` | Add user identifiers to run the container with user privileges. To obtain such values, run on your host `id yourusername`, additional information can be found in [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) |
 | `-p 3129:3129` | This Network port is required for Direct Connection mode, more information in [this section](https://github.com/jaymoulin/docker-jdownloader#direct-connection) |
 
 ### Environment Variables
@@ -148,6 +150,8 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
 | `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
+| `PUID=1000` | Your user id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) |
+| `GID=1000` | Your group id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) |
 
 #### Identify
 There are 3 possibilities to give login password for MyJDownloader:

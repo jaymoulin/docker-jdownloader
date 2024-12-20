@@ -4,6 +4,16 @@ trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/app/JDownloader.jar.* 2> /dev/null
 rm -f /opt/JDownloader/app/JDownloader.pid 2> /dev/null
 
+# Define PUID/GID workaround for closed systems
+if [ -n "$PUID" ]; then
+    adduser jdown -D 2> /dev/null
+    usermod -u $PUID jdown
+fi
+
+if [ -n "$GID" ]; then
+    groupmod -g $GID jdown
+fi
+
 # Login user with docker secret or env credentials - Please prefer command way
 if [ -n "$FILE_MYJD_USER" ] && [ -n "$FILE_MYJD_PASSWORD" ]; then
     configure $(cat "/run/secrets/$FILE_MYJD_USER") $(cat "/run/secrets/$FILE_MYJD_PASSWORD")
@@ -52,7 +62,7 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
     umask "$UMASK"
 fi
 
-java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
+su jdown -s /bin/sh -c 'java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 PID=$!
 while [ "$PID" ]
 do

@@ -34,7 +34,7 @@ WORKDIR /opt/JDownloader
 
 CMD ["/opt/JDownloader/daemon.sh"]
 
-RUN if [ "" = "$ISDEB" ]; then apk add --update libstdc++ ffmpeg wget procps && \
+RUN if [ "" = "$ISDEB" ]; then apk add --update libstdc++ ffmpeg wget procps shadow && \
      wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
      chmod 777 /opt/JDownloader/ -R && \
      apk del wget --purge; \
