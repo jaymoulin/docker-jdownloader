@@ -1,14 +1,15 @@
-FROM bellsoft/liberica-openjdk-alpine:10.0.2-x86_64 as base-amd64-v1
-FROM bellsoft/liberica-openjdk-alpine:10.0.2-armv7l as base-arm-v7
+FROM bellsoft/liberica-openjdk-alpine:10.0.2-x86_64 AS base-amd64-v1
+FROM bellsoft/liberica-openjdk-alpine:10.0.2-armv7l AS base-arm-v7
 
-FROM bellsoft/liberica-openjdk-debian:11.0.20-aarch64 as base-arm64-v1
+FROM bellsoft/liberica-openjdk-debian:11.0.20-aarch64 AS base-arm64-v1
 ENV ISDEB=1
-FROM balenalib/raspberry-pi as base-arm-v6
+FROM balenalib/raspberry-pi AS base-arm-v6
 ENV ISDEB=1
 
 FROM base-${TARGETARCH}-${TARGETVARIANT:-v1}
 
 ARG VERSION="2.1.2"
+ARG TARGETPLATFORM
 LABEL maintainer="Jay MOULIN <https://brands.jaymoulin.me/me/docker-jdownloader>"
 LABEL version="${VERSION}-${TARGETPLATFORM}"
 ENV LD_LIBRARY_PATH=/lib;/lib32;/usr/lib
