@@ -8,7 +8,7 @@ ENV ISDEB=1
 
 FROM base-${TARGETARCH}-${TARGETVARIANT:-v1}
 
-ARG VERSION="2.1.2"
+ARG VERSION="2.2.0"
 ARG TARGETPLATFORM
 LABEL maintainer="Jay MOULIN <https://brands.jaymoulin.me/me/docker-jdownloader>"
 LABEL version="${VERSION}-${TARGETPLATFORM}"
