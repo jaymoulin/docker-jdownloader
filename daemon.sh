@@ -1,6 +1,6 @@
 #!/bin/sh
 
-trap 'kill -TERM $PID' TERM INT
+trap 'kill -SIGTERM $PID' TERM INT
 rm -f /opt/JDownloader/app/JDownloader.jar.* 2> /dev/null
 rm -f /opt/JDownloader/app/JDownloader.pid 2> /dev/null
 
@@ -62,7 +62,7 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
     umask "$UMASK"
 fi
 
-if [ -m "$PUID" ]; then
+if [ -n "$PUID" ]; then
     su jdown -s /bin/sh -c 'java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 else
     java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
@@ -73,5 +73,4 @@ do
     wait $PID
     PID=`pgrep java`
 done
-wait $PID # don't alter exit status
 EXIT_STATUS=$?
