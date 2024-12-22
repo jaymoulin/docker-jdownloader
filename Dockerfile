@@ -23,7 +23,7 @@ ENV UMASK=''
 COPY ./${TARGETPLATFORM}/*.jar /opt/JDownloader/libs/
 # archive extraction uses sevenzipjbinding library
 # which is compiled against libstdc++
-RUN mkdir -p /opt/JDownloader/app
+RUN mkdir -p /opt/JDownloader/app/libs
 
 COPY daemon.sh /opt/JDownloader/
 COPY default-config.json.dist /opt/JDownloader/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json.dist
