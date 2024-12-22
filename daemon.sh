@@ -1,6 +1,6 @@
 #!/bin/sh
 
-trap 'kill -SIGTERM $PID' TERM INT
+trap 'kill -TERM $PID' TERM INT
 rm -f /opt/JDownloader/app/JDownloader.jar.* 2> /dev/null
 rm -f /opt/JDownloader/app/JDownloader.pid 2> /dev/null
 
