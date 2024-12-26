@@ -20,6 +20,6 @@ jobs:
         id: buildx
         uses: crazy-max/ghaction-docker-buildx@v1
       - name: Build image
-        run: make build
+        run: VERSION=${{ github.ref_name }} make build
       - name: Publish image
-        run: make publish
+        run: VERSION=${{ github.ref_name }} make publish
