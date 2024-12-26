@@ -6,7 +6,7 @@ rm -f /opt/JDownloader/app/JDownloader.pid 2> /dev/null
 
 # Define PUID/GID workaround for closed systems
 if [ -n "$PUID" ]; then
-    adduser jdown -D 2> /dev/null
+    adduser jdown -D 2> /dev/null || useradd jdown 2> /dev/null
     usermod -u $PUID jdown
 fi
 
@@ -63,7 +63,7 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
 fi
 
 if [ -n "$PUID" ]; then
-    su jdown -s /bin/sh -c 'java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
+    su jdown2 -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 else
     java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
 fi
