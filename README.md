@@ -150,8 +150,8 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
 | `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
-| `PUID=1000` | Your user id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) |
-| `GID=1000` | Your group id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) |
+| `PUID=1000` | Your user id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |
+| `GID=1000` | Your group id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |
 
 #### Identify
 There are 3 possibilities to give login password for MyJDownloader:
