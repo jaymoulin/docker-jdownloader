@@ -63,7 +63,7 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
 fi
 
 if [ -n "$PUID" ] && [ $(id -u) -eq 0 ]; then
-    su jdown2 -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
+    su jdown -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 else
     java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
 fi
