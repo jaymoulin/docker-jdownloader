@@ -11,7 +11,7 @@ if [ -n "$PUID" ] && [ $(id -u) -eq 0 ]; then
 fi
 
 if [ -n "$GID" ] && [ $(id -u) -eq 0 ]; then
-    groupmod -g $GID jdown
+    groupmod -g $GID jdown > /dev/null 2>&1 ||: usermod -g $GID jdown
 fi
 
 # Login user with docker secret or env credentials - Please prefer command way
@@ -63,6 +63,7 @@ if echo "$UMASK" | grep -Eq '0[0-7]{3}' ; then
 fi
 
 if [ -n "$PUID" ] && [ $(id -u) -eq 0 ]; then
+    chown -R ${PUID}:${GID} /opt/JDownloader/
     su jdown -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 else
     java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
