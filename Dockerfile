@@ -34,12 +34,12 @@ WORKDIR /opt/JDownloader
 
 CMD ["/opt/JDownloader/daemon.sh"]
 
-RUN if [ "" = "$ISDEB" ]; then apk add --update libstdc++ ffmpeg wget procps shadow && \
+RUN if [ "" = "$ISDEB" ]; then apk add --update libstdc++ ffmpeg wget procps shadow fontconfig ttf-dejavu && \
      wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
      chmod 777 /opt/JDownloader/ -R && \
      apk del wget --purge; \
-     else apt-get update && \
-     apt-get install ffmpeg wget procps -y && \
+    else apt-get update && \
+     apt-get install ffmpeg wget procps fontconfig fonts-dejavu -y && \
      (java -version || apt-get install openjdk-8-jdk) && \
      wget -O /opt/JDownloader/JDownloader.jar "http://installer.jdownloader.org/JDownloader.jar?$RANDOM" && \
      chmod 777 /opt/JDownloader/ -R && \
