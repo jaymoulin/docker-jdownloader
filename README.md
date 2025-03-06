@@ -51,6 +51,7 @@ services:
             MYJD_PASSWORD: bar #optional (see [Identify](https://github.com/jaymoulin/docker-jdownloader#identify))
             MYJD_DEVICE_NAME: goofy #optional
             XDG_DOWNLOAD_DIR: /opt/JDownloader/Downloads #optional
+            VMARGS: -Xmx2g #optional
             PUID: 1000 #optional user id - not recommanded
             GID: 1000 #optional group id - not recommanded
     ports:
@@ -149,6 +150,7 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
+| `VMARGS` | Additional arguments to pass to the Java VM (e.g. heap memory limit) |
 | `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
 | `PUID=1000` | Your user id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |
 | `GID=1000` | Your group id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |

@@ -64,9 +64,9 @@ fi
 
 if [ -n "$PUID" ] && [ $(id -u) -eq 0 ]; then
     chown -R ${PUID}:${GID} /opt/JDownloader/
-    su jdown -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
+    su jdown -c '${JAVA_HOME}/bin/java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true $VMARGS -jar /opt/JDownloader/app/JDownloader.jar -norestart' &
 else
-    java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar /opt/JDownloader/app/JDownloader.jar -norestart &
+    java -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 -Djava.awt.headless=true $VMARGS -jar /opt/JDownloader/app/JDownloader.jar -norestart &
 fi
 PID=$!
 while [ "$PID" ]
