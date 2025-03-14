@@ -150,7 +150,7 @@ You can set many parameters when you configure this container, but you must spec
 | `MYJD_PASSWORD=foo` | Your MyJDownloader password |
 | `MYJD_DEVICE_NAME=goofy`| The device name that will appear on MyJdownloader portal |
 | `XDG_DOWNLOAD_DIR=/opt/JDownloader/Downloads` | If you use this variable, set it as per the downloads folder volume! |
-| `VMARGS` | Additional arguments to pass to the Java VM (e.g. heap memory limit) |
+| `VMARGS="-Xmx2g -Xms2g"` | Additional arguments to pass to the Java VM (e.g. heap memory limit) (default: undefined) (cf. [Java CLI options documentation](https://docs.oracle.com/en/java/javase/11/troubleshoot/command-line-options1.html) or `docker run --rm -ti jaymoulin/jdownloader java -X`) |
 | `UMASK="0002"` | Defines specific rights for your downloaded files (default: undefined) - Must respect octal form (begins with 0 followed by three numbers between 0 and 7 included) (cf. https://en.wikipedia.org/wiki/Umask) |
 | `PUID=1000` | Your user id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |
 | `GID=1000` | Your group id (for your user privileges) - workaround for closed systems, prefer `-u` flag method instead [Docker documentation](https://docs.docker.com/engine/reference/commandline/exec/#options) - Ignored if user flag is used |
