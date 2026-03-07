@@ -19,7 +19,7 @@ JDownloader 2 - Docker Image
 # Headline
 
 This image allows you to have JDownloader 2 easily installed and controlled via [MyJDownloader](https://my.jdownloader.org/), thanks to Docker. 
-No cluncky and rusty VNC sessions here! No graphical interface - No problem!
+No clunky and rusty VNC sessions here! No graphical interface - No problem!
 
 Installation
 ---
